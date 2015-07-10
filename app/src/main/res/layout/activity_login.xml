@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.percent.PercentRelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <ImageView
+        android:id="@+id/image_view_login"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_widthPercent="30%"
+        app:layout_heightPercent="30%"
+        app:layout_marginTopPercent="7%"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:src="@mipmap/ic_launcher" />
+
+    <EditText
+        android:id="@+id/edit_text_phone_number"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        style="@style/LoginActivity.EditText"
+        android:layout_below="@id/image_view_login"
+        app:layout_marginTopPercent="10%"
+        android:hint="@string/hint_login_phone_number"/>
+
+    <EditText
+        android:id="@+id/edit_text_password"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        style="@style/LoginActivity.EditText"
+        android:inputType="textPassword"
+        android:layout_below="@id/edit_text_phone_number"
+        app:layout_marginTopPercent="1.5%"
+        android:hint="@string/hint_login_password"/>
+
+    <Button
+        android:id="@+id/button_login"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        style="@style/LoginActivity.Button"
+        android:layout_below="@id/edit_text_password"
+        app:layout_marginTopPercent="10%"
+        android:text="@string/login"/>
+
+</android.support.percent.PercentRelativeLayout>

@@ -14,7 +14,7 @@ import com.hornettao.mychat.view.PagerSlidingTabStrip;
 /**
  * 聊天Fragment的界面
  */
-public class ChatFragment extends Fragment {
+public class RecentFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

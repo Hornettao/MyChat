@@ -1,8 +1,8 @@
 package com.hornettao.mychat.utils;
 
-import java.util.Comparator;
+import com.hornettao.mychat.bean.User;
 
-import com.bmob.im.demo.bean.User;
+import java.util.Comparator;
 
 public class PinyinComparator implements Comparator<User> {
 

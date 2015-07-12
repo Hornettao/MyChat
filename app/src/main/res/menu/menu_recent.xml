@@ -12,7 +12,7 @@
         android:id="@+id/action_plus"
         android:actionProviderClass="com.hornettao.mychat.view.PlusActionProvider"
         android:icon="@mipmap/actionbar_add_icon"
-        android:showAsAction="ifRoom"
+        android:showAsAction="always"
         android:title="@string/action_plus"/>
     <item
         android:id="@+id/action_album"

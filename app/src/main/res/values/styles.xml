@@ -43,12 +43,46 @@
         <item name="android:textSize">18sp</item>
     </style>
 
+    <style name="MyChat.TextView._White">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
     <style name="MyChat.TextView._Black">
         <item name="android:textColor">@color/base_color_text_black</item>
     </style>
 
     <style name="MyChat.TextView._Orange">
         <item name="android:textColor">@color/dialog_color_title</item>
+    </style>
+
+    <style name="MyChat.ImageView">
+        <item name="android:contentDescription">@string/app_name</item>
+    </style>
+
+    <style name="MyChat.ImageView.Photo_Large">
+        <item name="android:layout_width">75dp</item>
+        <item name="android:layout_height">75dp</item>
+        <item name="android:scaleType">fitXY</item>
+    </style>
+    <style name="MyChat.ImageView.Photo_Middle">
+        <item name="android:layout_width">60dp</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:scaleType">fitXY</item>
+    </style>
+
+    <style name="MyChat.ImageView.Photo_Small">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:scaleType">fitXY</item>
+    </style>
+
+
+    <style name="MyChat.Button.theme" parent="MyChat.TextView._White">
+        <item name="android:background">@drawable/selector_button</item>
+    </style>
+
+    <style name="MyChat.Button.logout" parent="MyChat.TextView._White">
+        <item name="android:background">@drawable/selector_button</item>
     </style>
 
     <style name="WelcomeActivityButton">
@@ -108,6 +142,41 @@
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowFrame">@null</item>
         <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="chat_content_date_style">
+        <item name="android:minHeight">50dp</item>
+        <item name="android:gravity">left|center</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:lineSpacingExtra">2dp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:background">#bfbfbf</item>
+    </style>
+
+    <style name="chat_text_name_style">
+        <item name="android:textColor">#818181</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="chat_text_date_style">
+        <item name="android:padding">2dp</item>
+        <item name="android:paddingTop">2dip</item>
+        <item name="android:paddingBottom">2dip</item>
+        <item name="android:paddingLeft">12dip</item>
+        <item name="android:paddingRight">12dip</item>
+        <item name="android:textColor">@color/base_color_text_white</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:background">@mipmap/chat_time_block</item>
+    </style>
+
+    <style name="Animations" />
+
+    <style name="Animations.GrowFromBottom">
+        <item name="@android:windowEnterAnimation">@anim/grow_from_bottom</item>
+        <item name="@android:windowExitAnimation">@anim/shrink_from_top</item>
     </style>
 
 </resources>

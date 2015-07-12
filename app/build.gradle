@@ -34,4 +34,5 @@ dependencies {
     compile files('libs/BmobIM_V1.1.8beta_20150408.jar')
     compile files('libs/universal-image-loader-1.9.4-with-sources.jar')
     compile project(':badgeView')
+    compile files('libs/photoview-library-1.2.2.jar')
 }

@@ -2,14 +2,17 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/hornettao/mychat/MyMessageReceiver.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/app/src/main/java/com/hornettao/mychat/MyMessageReceiver.java" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/hornettao/mychat/activity/BaseActivity.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/hornettao/mychat/activity/HomeActivity.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/hornettao/mychat/adapter/base/BaseListAdapter.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/hornettao/mychat/bean/User.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/hornettao/mychat/utils/CharacterParser.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/hornettao/mychat/utils/CollectionUtils.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/hornettao/mychat/utils/SharePreferenceUtil.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/hornettao/mychat/view/MyLetterView.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/hornettao/mychat/view/dialog/DialogBase.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/java/com/hornettao/mychat/view/dialog/DialogTips.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/java/com/hornettao/mychat/view/xlist/XListView.java" charset="UTF-8" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

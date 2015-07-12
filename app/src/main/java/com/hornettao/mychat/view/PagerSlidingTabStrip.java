@@ -287,12 +287,14 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 				tab.setTypeface(tabTypeface, tabTypefaceStyle);
 				tab.setTextColor(tabTextColor);
 				if (i == 0) {
+					tab.setTextSize(TypedValue.COMPLEX_UNIT_PX, tabTextSize + 5);
 					chatBadgeView = new BadgeView(getContext());
 					chatBadgeView.setTargetView(tab);
 					chatBadgeView.setBadgeCount(0);
 					chatBadgeView.setBadgeMargin(0, DensityUtils.getPX(getContext(), 5), 0, 0);
 				}
 				if (i == 1) {
+					tab.setTextSize(TypedValue.COMPLEX_UNIT_PX, tabTextSize + 5);
 					contactsBadgeView = new BadgeView(getContext());
 					contactsBadgeView.setTargetView(tab);
 					contactsBadgeView.setBadgeCount(0);

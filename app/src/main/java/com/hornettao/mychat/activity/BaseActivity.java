@@ -1,11 +1,14 @@
 package com.hornettao.mychat.activity;
 
 import android.app.ActionBar;
+import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.NavUtils;
+import android.view.MenuItem;
 
 import com.hornettao.mychat.MyChatApplication;
 import com.hornettao.mychat.bean.User;
@@ -40,6 +43,9 @@ public class BaseActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+//        getWindow().setSoftInputMode(
+//                WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
+//                        | WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 		userManager = BmobUserManager.getInstance(this);
 		manager = BmobChatManager.getInstance(this);
 		mApplication = MyChatApplication.getInstance();
@@ -97,23 +103,23 @@ public class BaseActivity extends FragmentActivity {
 		//这里默认采取的是登陆成功之后即将好于列表存储到数据库中，并更新到当前内存中,
 		userManager.queryCurrentContactList(new FindListener<BmobChatUser>() {
 
-					@Override
-					public void onError(int arg0, String arg1) {
-						// TODO Auto-generated method stub
-						if(arg0==BmobConfig.CODE_COMMON_NONE){
-							L.e(arg1);
-						}else{
-							L.e("查询好友列表失败："+arg1);
-						}
-					}
+			@Override
+			public void onError(int arg0, String arg1) {
+				// TODO Auto-generated method stub
+				if (arg0 == BmobConfig.CODE_COMMON_NONE) {
+					L.e(arg1);
+				} else {
+					L.e("查询好友列表失败：" + arg1);
+				}
+			}
 
-					@Override
-					public void onSuccess(List<BmobChatUser> arg0) {
-						// TODO Auto-generated method stub
-						// 保存到application中方便比较
-						MyChatApplication.getInstance().setContactList(CollectionUtils.list2map(arg0));
-					}
-				});
+			@Override
+			public void onSuccess(List<BmobChatUser> arg0) {
+				// TODO Auto-generated method stub
+				// 保存到application中方便比较
+				MyChatApplication.getInstance().setContactList(CollectionUtils.list2map(arg0));
+			}
+		});
 	}
 	/** 更新用户的经纬度信息
 	  * @Title: uploadLocation
@@ -147,5 +153,24 @@ public class BaseActivity extends FragmentActivity {
 				L.i("用户位置未发生变化");
 			}
 		}
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		L.i("item selected==" + item.getItemId());
+		if (item.getItemId() == android.R.id.home) {
+			L.i("R.id.home");
+			Intent upIntent = NavUtils.getParentActivityIntent(this);
+			if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
+				TaskStackBuilder.create(this)
+						.addNextIntentWithParentStack(upIntent)
+						.startActivities();
+			} else {
+				upIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				NavUtils.navigateUpTo(this, upIntent);
+			}
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }

@@ -2,7 +2,7 @@
 <resources>
 
     <color name="base_color">#2A8D44</color>
-    <color name="button_normal_welcome_activity">#eeeeee</color>
+    <color name="button_normal_welcome_activity">#2A8D44</color>
     <color name="button_pressed_welcome_activity">#959595</color>
     <color name="button_text_welcome_activity">#516258</color>
     <color name="base_actionbar_bg">#f5f5f5</color>

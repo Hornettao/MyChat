@@ -1,7 +1,6 @@
 package com.hornettao.mychat.fragment;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -15,7 +14,7 @@ import android.widget.TextView;
 /**
  * 我的Fragment的界面
  */
-public class MyFragment extends Fragment {
+public class MyFragment extends BaseFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {

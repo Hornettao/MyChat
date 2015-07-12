@@ -1,7 +1,5 @@
 package com.hornettao.mychat.adapter;
 
-import java.util.List;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.TextUtils;
@@ -13,17 +11,16 @@ import android.widget.ImageView;
 import android.widget.SectionIndexer;
 import android.widget.TextView;
 
-import com.bmob.im.demo.R;
-import com.bmob.im.demo.bean.User;
-import com.bmob.im.demo.util.ImageLoadOptions;
+import com.hornettao.mychat.R;
+import com.hornettao.mychat.bean.User;
+import com.hornettao.mychat.utils.ImageLoadOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
-/** �����б�
-  * @ClassName: UserFriendAdapter
-  * @Description: TODO
-  * @author smile
-  * @date 2014-6-12 ����3:03:40
-  */
+import java.util.List;
+
+/**
+ * 好友列表
+ */
 @SuppressLint("DefaultLocale")
 public class UserFriendAdapter extends BaseAdapter implements SectionIndexer {
 	private Context ct;
@@ -34,13 +31,13 @@ public class UserFriendAdapter extends BaseAdapter implements SectionIndexer {
 		this.data = datas;
 	}
 
-	/** ��ListView��ݷ���仯ʱ,���ô˷���������ListView
-	  * @Title: updateListView
-	  * @Description: TODO
-	  * @param @param list 
-	  * @return void
-	  * @throws
-	  */
+	/** 当ListView数据发生变化时,调用此方法来更新ListView
+	 * @Title: updateListView
+	 * @Description: TODO
+	 * @param @param list
+	 * @return void
+	 * @throws
+	 */
 	public void updateListView(List<User> list) {
 		this.data = list;
 		notifyDataSetChanged();
@@ -50,7 +47,7 @@ public class UserFriendAdapter extends BaseAdapter implements SectionIndexer {
 		this.data.remove(user);
 		notifyDataSetChanged();
 	}
-	
+
 	@Override
 	public int getCount() {
 		return data.size();
@@ -90,13 +87,13 @@ public class UserFriendAdapter extends BaseAdapter implements SectionIndexer {
 		if (!TextUtils.isEmpty(avatar)) {
 			ImageLoader.getInstance().displayImage(avatar, viewHolder.avatar, ImageLoadOptions.getOptions());
 		} else {
-			viewHolder.avatar.setImageDrawable(ct.getResources().getDrawable(R.drawable.head));
+			viewHolder.avatar.setImageDrawable(ct.getResources().getDrawable(R.mipmap.ic_launcher));
 		}
 		viewHolder.name.setText(name);
 
-		// ���position��ȡ���������ĸ��Char asciiֵ
+		// 根据position获取分类的首字母的Char ascii值
 		int section = getSectionForPosition(position);
-		// ���ǰλ�õ��ڸ÷�������ĸ��Char��λ�� ������Ϊ�ǵ�һ�γ���
+		// 如果当前位置等于该分类首字母的Char的位置 ，则认为是第一次出现
 		if (position == getPositionForSection(section)) {
 			viewHolder.alpha.setVisibility(View.VISIBLE);
 			viewHolder.alpha.setText(friend.getSortLetters());
@@ -108,20 +105,20 @@ public class UserFriendAdapter extends BaseAdapter implements SectionIndexer {
 	}
 
 	static class ViewHolder {
-		TextView alpha;// ����ĸ��ʾ
+		TextView alpha;// 首字母提示
 		ImageView avatar;
 		TextView name;
 	}
 
 	/**
-	 * ���ListView�ĵ�ǰλ�û�ȡ���������ĸ��Char asciiֵ
+	 * 根据ListView的当前位置获取分类的首字母的Char ascii值
 	 */
 	public int getSectionForPosition(int position) {
 		return data.get(position).getSortLetters().charAt(0);
 	}
 
 	/**
-	 * ��ݷ��������ĸ��Char asciiֵ��ȡ���һ�γ��ָ�����ĸ��λ��
+	 * 根据分类的首字母的Char ascii值获取其第一次出现该首字母的位置
 	 */
 	@SuppressLint("DefaultLocale")
 	public int getPositionForSection(int section) {

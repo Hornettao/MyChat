@@ -25,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="top|right"
                 android:contentDescription="@string/action_settings"
-                android:src="@drawable/msg_tips" />
+                android:src="@mipmap/msg_tips" />
 
             <ImageView
                 android:layout_width="50.0dip"
@@ -34,12 +34,12 @@
                 android:layout_marginTop="6.0dip"
                 android:contentDescription="@string/action_settings"
                 android:padding="5dp"
-                android:src="@drawable/new_friends_icon" />
+                android:src="@mipmap/new_friends_icon" />
         </FrameLayout>
 
         <TextView
             android:id="@+id/tv_new_name"
-            style="@style/Smile.TextView._Black"
+            style="@style/MyChat.TextView._Black"
             android:layout_width="0dp"
             android:layout_gravity="center_vertical"
             android:layout_weight="1.0"
@@ -52,9 +52,9 @@
     <View
         android:id="@+id/line"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/base_line_width_1"
+        android:layout_height="1dp"
         android:layout_below="@id/layout_new"
-        android:background="@drawable/base_horizontal_line" >
+        android:background="@mipmap/base_horization_line" >
     </View>
 
     <LinearLayout
@@ -72,10 +72,10 @@
             android:layout_marginTop="6.0dip"
             android:contentDescription="@string/action_settings"
             android:padding="5dp"
-            android:src="@drawable/icon_near" />
+            android:src="@mipmap/icon_near" />
 
         <TextView
-            style="@style/Smile.TextView._Black"
+            style="@style/MyChat.TextView._Black"
             android:layout_width="0dp"
             android:layout_gravity="center_vertical"
             android:layout_weight="1.0"

@@ -1,6 +1,11 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.hornettao.mychat.activity.NewFriendActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" android:showAsAction="never" />
+    <item
+        android:id="@+id/action_add_friend"
+        android:icon="@mipmap/ofm_add_icon"
+        android:title="@string/plus_add_friend"
+        android:orderInCategory="100"
+        android:showAsAction="always" />
 </menu>

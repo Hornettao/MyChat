@@ -1,16 +1,16 @@
 package com.hornettao.mychat.adapter.base;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-import com.bmob.im.demo.bean.FaceText;
+import com.hornettao.mychat.bean.FaceText;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class BaseArrayListAdapter extends BaseAdapter {
 

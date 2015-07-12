@@ -60,6 +60,7 @@ public class StartUpActivity extends BaseActivity {
         } else {
             mHandler.sendEmptyMessageDelayed(GO_WELCOME, ANIMATION_TIME);
         }
+//        mHandler.sendEmptyMessageDelayed(GO_WELCOME, ANIMATION_TIME);
     }
 
     /**

@@ -21,8 +21,8 @@ import com.hornettao.mychat.MyMessageReceiver;
 import com.hornettao.mychat.R;
 import com.hornettao.mychat.fragment.ContactsFragment;
 import com.hornettao.mychat.fragment.FoundFragment;
-import com.hornettao.mychat.fragment.MyFragment;
 import com.hornettao.mychat.fragment.RecentFragment;
+import com.hornettao.mychat.fragment.SettingsFragment;
 import com.hornettao.mychat.utils.DensityUtils;
 import com.hornettao.mychat.utils.L;
 import com.hornettao.mychat.utils.T;
@@ -63,7 +63,7 @@ public class HomeActivity extends Base2Activity implements EventListener {
     /**
      * 我的界面的Fragment
      */
-    private MyFragment myFragment;
+    private SettingsFragment settingsFragment;
 
     /**
      * PagerSlidingTabStrip的实例
@@ -393,10 +393,10 @@ public class HomeActivity extends Base2Activity implements EventListener {
                     }
                     return foundFragment;
                 case 3:
-                    if (myFragment == null) {
-                        myFragment = new MyFragment();
+                    if (settingsFragment == null) {
+                        settingsFragment = new SettingsFragment();
                     }
-                    return myFragment;
+                    return settingsFragment;
                 default:
                     return null;
             }

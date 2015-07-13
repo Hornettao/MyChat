@@ -125,6 +125,9 @@
             android:name=".activity.ImageBrowserActivity"
             android:label="@string/title_activity_image_browser" >
         </activity>
+        <activity android:name=".activity.BlackListActivity"/>
+        <activity android:name=".activity.NearPeopleActivity"/>
+        <activity android:name=".activity.UpdateInfoActivity"/>
         <!-- 百度地图开发者key -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"

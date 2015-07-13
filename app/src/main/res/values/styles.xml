@@ -51,6 +51,10 @@
         <item name="android:textColor">@color/base_color_text_black</item>
     </style>
 
+    <style name="MyChat.TextView._Gray">
+        <item name="android:textColor">@color/base_color_text_gray</item>
+    </style>
+
     <style name="MyChat.TextView._Orange">
         <item name="android:textColor">@color/dialog_color_title</item>
     </style>

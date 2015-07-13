@@ -1,0 +1,10 @@
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.hornettao.mychat.activity.ChatActivity">
+    <item
+        android:id="@+id/action_update_nick"
+        android:title="修改昵称"
+        android:orderInCategory="100"
+        android:showAsAction="always" />
+</menu>

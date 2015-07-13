@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:state_pressed="true" android:drawable="@drawable/button_pressed_welcome_activity"/>
-    <item android:state_focused="true" android:drawable="@drawable/button_pressed_welcome_activity"/>
-    <item android:drawable="@drawable/button_normal_welcome_activity" />
+<selector
+xmlns:android="http://schemas.android.com/apk/res/android">
+<item android:state_pressed="true" android:drawable="@drawable/button_pressed_welcome_activity"/>
+<item android:state_focused="true" android:drawable="@drawable/button_pressed_welcome_activity"/>
+<item android:drawable="@drawable/button_normal_welcome_activity" />
 </selector>

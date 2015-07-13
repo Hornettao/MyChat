@@ -3,6 +3,7 @@
 
     <string name="title_activity_main">MainActivity</string>
 
+    <string name="welcome_text">来往&#8212;&#8212;传递给你我的思念</string>
     <string name="register">注册</string>
     <string name="login">登录</string>
     <string name="title_activity_register">注册</string>

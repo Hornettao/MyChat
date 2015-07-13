@@ -96,8 +96,8 @@
         <item name="android:layout_centerHorizontal">true</item>
         <item name="layout_heightPercent">7.5%</item>
         <item name="layout_widthPercent">70%</item>
-        <item name="android:textSize">20sp</item>
-        <item name="android:textColor">@color/button_text_welcome_activity</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@android:color/white</item>
     </style>
 
     <style name="LoginActivity">

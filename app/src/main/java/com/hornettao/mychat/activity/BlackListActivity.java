@@ -36,6 +36,7 @@ public class BlackListActivity extends Base2Activity implements OnItemClickListe
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_blacklist);
+		showBackAndHidelogo();
 		initView();
 	}
 

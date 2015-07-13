@@ -6,9 +6,9 @@ import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
@@ -39,6 +39,7 @@ public class ImageBrowserActivity extends BaseActivity implements ViewPager.OnPa
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_picture);
+        showBackAndHidelogo();
         init();
         initViews();
     }
@@ -53,7 +54,7 @@ public class ImageBrowserActivity extends BaseActivity implements ViewPager.OnPa
         mAdapter = new ImageBrowserAdapter(this);
         mSvpPager.setAdapter(mAdapter);
         mSvpPager.setCurrentItem(mPosition, false);
-        mSvpPager.setOnPageChangeListener(this);
+        mSvpPager.addOnPageChangeListener(this);
 
     }
 
@@ -99,7 +100,7 @@ public class ImageBrowserActivity extends BaseActivity implements ViewPager.OnPa
                     container, false);
             final PhotoView photoView = (PhotoView) imageLayout
                     .findViewById(R.id.photoview);
-            final ProgressBar progress = (ProgressBar)imageLayout.findViewById(R.id.progress);
+            final ProgressBar progress = (ProgressBar) imageLayout.findViewById(R.id.progress);
 
             final String imgUrl = mPhotos.get(position);
             ImageLoader.getInstance().displayImage(imgUrl, photoView, ImageLoadOptions.getOptions(),new SimpleImageLoadingListener() {
@@ -143,4 +144,12 @@ public class ImageBrowserActivity extends BaseActivity implements ViewPager.OnPa
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

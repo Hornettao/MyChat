@@ -12,10 +12,10 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -29,6 +29,9 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bmob.BTPFileResponse;
+import com.bmob.BmobProFile;
+import com.bmob.btp.callback.UploadListener;
 import com.hornettao.mychat.MyChatApplication;
 import com.hornettao.mychat.R;
 import com.hornettao.mychat.bean.User;
@@ -53,7 +56,6 @@ import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.PushListener;
 import cn.bmob.v3.listener.UpdateListener;
-import cn.bmob.v3.listener.UploadFileListener;
 
 /**
  * 个人资料页面
@@ -385,6 +387,50 @@ public class SetMyInfoActivity extends Base2Activity implements View.OnClickList
 
     public String filePath = "";
 
+
+    /**
+     * 启动相机拍照 startCamera
+     *
+     * @Title: startCamera
+     * @throws
+     */
+    public void selectImageFromCamera() {
+        Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        File dir = new File(Consts.MYCHAT_PICTURE_PATH);
+        if (!dir.exists()) {
+            dir.mkdirs();
+        }
+        File file = new File(dir, String.valueOf(System.currentTimeMillis())
+                + ".jpg");
+        filePath = file.getPath();
+        L.i("here" + filePath);
+        Uri imageUri = Uri.fromFile(file);
+        openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+        startActivityForResult(openCameraIntent,
+                Consts.REQUESTCODE_UPLOADAVATAR_CAMERA);
+    }
+
+    /**
+     * 选择图片
+     * @Title: selectImage
+     * @Description: TODO
+     * @param
+     * @return void
+     * @throws
+     */
+    public void selectImageFromLocal() {
+        Intent intent;
+        if (Build.VERSION.SDK_INT < 19) {
+            intent = new Intent(Intent.ACTION_GET_CONTENT);
+            intent.setType("image/*");
+        } else {
+            intent = new Intent(
+                    Intent.ACTION_PICK,
+                    android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        }
+        startActivityForResult(intent, Consts.REQUESTCODE_UPLOADAVATAR_LOCATION);
+    }
+
     private void showAvatarPop() {
         View view = LayoutInflater.from(this).inflate(R.layout.pop_showavator,
                 null);
@@ -400,20 +446,7 @@ public class SetMyInfoActivity extends Base2Activity implements View.OnClickList
                         R.color.base_color_text_white));
                 layout_photo.setBackgroundDrawable(getResources().getDrawable(
                         R.mipmap.pop_bg_press));
-                File dir = new File(Consts.MyAvatarDir);
-                if (!dir.exists()) {
-                    dir.mkdirs();
-                }
-                // 原图
-                File file = new File(dir, new SimpleDateFormat("yyMMddHHmmss")
-                        .format(new Date()));
-                filePath = file.getAbsolutePath();// 获取相片的保存路径
-                Uri imageUri = Uri.fromFile(file);
-
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-                startActivityForResult(intent,
-                        Consts.REQUESTCODE_UPLOADAVATAR_CAMERA);
+                selectImageFromCamera();
             }
         });
         layout_choose.setOnClickListener(new View.OnClickListener() {
@@ -426,11 +459,7 @@ public class SetMyInfoActivity extends Base2Activity implements View.OnClickList
                         R.color.base_color_text_white));
                 layout_choose.setBackgroundDrawable(getResources().getDrawable(
                         R.mipmap.pop_bg_press));
-                Intent intent = new Intent(Intent.ACTION_PICK, null);
-                intent.setDataAndType(
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
-                startActivityForResult(intent,
-                        Consts.REQUESTCODE_UPLOADAVATAR_LOCATION);
+                selectImageFromLocal();
             }
         });
 
@@ -494,6 +523,7 @@ public class SetMyInfoActivity extends Base2Activity implements View.OnClickList
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case Consts.REQUESTCODE_UPLOADAVATAR_CAMERA:// 拍照修改头像
+                L.i("taoychere");
                 if (resultCode == RESULT_OK) {
                     if (!Environment.getExternalStorageState().equals(
                             Environment.MEDIA_MOUNTED)) {
@@ -502,8 +532,9 @@ public class SetMyInfoActivity extends Base2Activity implements View.OnClickList
                     }
                     isFromCamera = true;
                     File file = new File(filePath);
+                    L.i("拍照修改头像" + filePath);
                     degree = PhotoUtil.readPictureDegree(file.getAbsolutePath());
-                    Log.i("life", "拍照后的角度：" + degree);
+                    L.i("拍照后的角度：" + degree);
                     startImageAction(Uri.fromFile(file), 200, 200,
                             Consts.REQUESTCODE_UPLOADAVATAR_CROP, true);
                 }
@@ -516,6 +547,9 @@ public class SetMyInfoActivity extends Base2Activity implements View.OnClickList
                 if (data == null) {
                     return;
                 }
+
+
+
                 if (resultCode == RESULT_OK) {
                     if (!Environment.getExternalStorageState().equals(
                             Environment.MEDIA_MOUNTED)) {
@@ -554,28 +588,22 @@ public class SetMyInfoActivity extends Base2Activity implements View.OnClickList
     }
 
     private void uploadAvatar() {
-        L.i("头像地址：" + path);
-        final BmobFile bmobFile = new BmobFile(new File(path));
-        bmobFile.upload(this, new UploadFileListener() {
-
+        BTPFileResponse response = BmobProFile.getInstance(this).upload(path, new UploadListener() {
             @Override
-            public void onSuccess() {
-                // TODO Auto-generated method stub
-                String url = bmobFile.getFileUrl(SetMyInfoActivity.this);
-                // 更新BmobUser对象
+            public void onSuccess(String s, String s1, BmobFile bmobFile) {
+                String url = bmobFile.getUrl();
+                L.i("success" + url);
                 updateUserAvatar(url);
             }
 
             @Override
-            public void onProgress(Integer arg0) {
-                // TODO Auto-generated method stub
-
+            public void onProgress(int i) {
+                L.i("progress");
             }
 
             @Override
-            public void onFailure(int arg0, String msg) {
-                // TODO Auto-generated method stub
-                T.showShort(SetMyInfoActivity.this, "头像上传失败：" + msg);
+            public void onError(int i, String s) {
+                L.i("error" + s);
             }
         });
     }
@@ -624,10 +652,10 @@ public class SetMyInfoActivity extends Base2Activity implements View.OnClickList
                 path = Consts.MyAvatarDir + filename;
                 PhotoUtil.saveBitmap(Consts.MyAvatarDir, filename,
                         bitmap, true);
-                // 上传头像
-                if (bitmap != null && bitmap.isRecycled()) {
-                    bitmap.recycle();
-                }
+            }
+            // 上传头像
+            if (bitmap != null && bitmap.isRecycled()) {
+                bitmap.recycle();
             }
         }
     }

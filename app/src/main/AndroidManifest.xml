@@ -114,7 +114,17 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.hornettao.mychat.activity.HomeActivity" />
         </activity>
-        <activity android:name=".activity.ChatActivity" />
+        <activity android:name=".activity.ChatActivity"
+            android:launchMode="singleTask"/>
+
+        <activity
+            android:name=".activity.LocationActivity"
+            android:label="@string/title_activity_location" >
+        </activity>
+        <activity
+            android:name=".activity.ImageBrowserActivity"
+            android:label="@string/title_activity_image_browser" >
+        </activity>
         <!-- 百度地图开发者key -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
@@ -152,9 +162,12 @@
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
-
+        <receiver android:name=".MyMessageReceiver" >
+            <intent-filter>
+                <action android:name="cn.bmob.push.action.MESSAGE" />
+            </intent-filter>
+        </receiver>
         <!-- IM聊天所需的Push end -->
-
 
         <!-- 启动定时检测操作 -->
         <service android:name="cn.bmob.im.poll.BmobPollService" >
@@ -163,14 +176,6 @@
             </intent-filter>
         </service>
 
-        <activity
-            android:name=".activity.LocationActivity"
-            android:label="@string/title_activity_location" >
-        </activity>
-        <activity
-            android:name=".activity.ImageBrowserActivity"
-            android:label="@string/title_activity_image_browser" >
-        </activity>
     </application>
 
 </manifest>

@@ -11,12 +11,12 @@ public class Consts {
     /**
      * 存放发送图片的目录
      */
-    public static String BMOB_PICTURE_PATH = Environment.getExternalStorageDirectory()	+ "/mychat/image/";
+    public static String MYCHAT_PICTURE_PATH = Environment.getExternalStorageDirectory()	+ "/mychat/image/";
 
     /**
      * 我的头像保存目录
      */
-    public static String MyAvatarDir = "/sdcard/bmobimdemo/avatar/";
+    public static String MyAvatarDir = "/sdcard/mychat/avatar/";
     /**
      * 拍照回调
      */

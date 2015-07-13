@@ -67,7 +67,7 @@ public class VerifySMSCodeActivity extends BaseActivity implements View.OnClickL
         BmobSMS.verifySmsCode(this, phoneNumber, smsCode, new VerifySMSCodeListener() {
             @Override
             public void done(BmobException e) {
-                if (e == null ){
+                if (e == null) {
                     L.i("验证通过");
                     Intent intent = new Intent(VerifySMSCodeActivity.this, RegisterActivity.class);
                     intent.putExtra(RegisterActivity.PHONE_NUMBER, phoneNumber);

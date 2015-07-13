@@ -1,9 +1,5 @@
 package com.hornettao.mychat.adapter;
 
-/**
- * Created by hornettao on 15/7/12.
- */
-
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -24,6 +20,7 @@ import com.hornettao.mychat.adapter.base.ViewHolder;
 import com.hornettao.mychat.listener.NewRecordPlayClickListener;
 import com.hornettao.mychat.utils.FaceTextUtils;
 import com.hornettao.mychat.utils.ImageLoadOptions;
+import com.hornettao.mychat.utils.L;
 import com.hornettao.mychat.utils.TimeUtil;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -40,16 +37,16 @@ import java.util.List;
 
 import cn.bmob.im.BmobDownloadManager;
 import cn.bmob.im.BmobUserManager;
+import cn.bmob.im.bean.BmobChatUser;
 import cn.bmob.im.bean.BmobMsg;
 import cn.bmob.im.config.BmobConfig;
 import cn.bmob.im.inteface.DownloadListener;
+import cn.bmob.v3.listener.FindListener;
 
 
-/** 聊天适配器
- * @ClassName: MessageChatAdapter
- * @Description: TODO
- * @author smile
- * @date 2014-5-28 下午5:34:07
+/**
+ *  聊天适配器
+ * Created by hornettao on 15/7/12.
  */
 public class MessageChatAdapter extends BaseListAdapter<BmobMsg> {
 
@@ -68,21 +65,40 @@ public class MessageChatAdapter extends BaseListAdapter<BmobMsg> {
     private final int TYPE_RECEIVER_VOICE = 7;
 
     String currentObjectId = "";
+    String mTargetObjectId = "";
+
+    String currentAvatar = "";
+    String targetAvatar = "";
 
     DisplayImageOptions options;
 
     private ImageLoadingListener animateFirstListener = new AnimateFirstDisplayListener();
 
-    public MessageChatAdapter(Context context,List<BmobMsg> msgList) {
+    public MessageChatAdapter(Context context,List<BmobMsg> msgList, String targetObjectId) {
         // TODO Auto-generated constructor stub
         super(context, msgList);
         currentObjectId = BmobUserManager.getInstance(context).getCurrentUserObjectId();
+        currentAvatar = BmobUserManager.getInstance(context).getCurrentUser().getAvatar();
+        mTargetObjectId = targetObjectId;
+        BmobUserManager.getInstance(context).queryUserById(mTargetObjectId, new FindListener<BmobChatUser>() {
+            @Override
+            public void onSuccess(List<BmobChatUser> list) {
+                if (list.size() > 0) {
+                    targetAvatar = list.get(0).getAvatar();
+                }
+            }
 
+            @Override
+            public void onError(int i, String s) {
+                L.e("url error");
+
+            }
+        });
         options = new DisplayImageOptions.Builder()
                 .showImageForEmptyUri(R.mipmap.ic_launcher)
                 .showImageOnFail(R.mipmap.ic_launcher)
                 .resetViewBeforeLoading(true)
-                .cacheOnDisc(true)
+                .cacheOnDisk(true)
                 .imageScaleType(ImageScaleType.EXACTLY)
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .considerExifParams(true)
@@ -111,17 +127,17 @@ public class MessageChatAdapter extends BaseListAdapter<BmobMsg> {
 
     private View createViewByType(BmobMsg message, int position) {
         int type = message.getMsgType();
-        if(type==BmobConfig.TYPE_IMAGE){//图片类型
+        if (type == BmobConfig.TYPE_IMAGE) {//图片类型
             return getItemViewType(position) == TYPE_RECEIVER_IMAGE ?
                     mInflater.inflate(R.layout.item_chat_received_image, null)
                     :
                     mInflater.inflate(R.layout.item_chat_sent_image, null);
-        }else if(type==BmobConfig.TYPE_LOCATION){//位置类型
+        }else if (type == BmobConfig.TYPE_LOCATION) {//位置类型
             return getItemViewType(position) == TYPE_RECEIVER_LOCATION ?
                     mInflater.inflate(R.layout.item_chat_received_location, null)
                     :
                     mInflater.inflate(R.layout.item_chat_sent_location, null);
-        }else if(type==BmobConfig.TYPE_VOICE){//语音类型
+        }else if (type == BmobConfig.TYPE_VOICE) {//语音类型
             return getItemViewType(position) == TYPE_RECEIVER_VOICE ?
                     mInflater.inflate(R.layout.item_chat_received_voice, null)
                     :
@@ -158,9 +174,14 @@ public class MessageChatAdapter extends BaseListAdapter<BmobMsg> {
         final TextView tv_voice_length = ViewHolder.get(convertView, R.id.tv_voice_length);
 
         //点击头像进入个人资料
-        String avatar = item.getBelongAvatar();
-        if(avatar!=null && !avatar.equals("")){//加载头像-为了不每次都加载头像
-            ImageLoader.getInstance().displayImage(avatar, iv_avatar, ImageLoadOptions.getOptions(),animateFirstListener);
+        String avatar = "";
+        if (item.getBelongId().equals(currentObjectId)) {
+            avatar = currentAvatar;
+        } else {
+            avatar = targetAvatar;
+        }
+        if(avatar != null && !avatar.equals("")){//加载头像-为了不每次都加载头像
+            ImageLoader.getInstance().displayImage(avatar, iv_avatar, ImageLoadOptions.getOptions(), animateFirstListener);
         }else{
             iv_avatar.setImageResource(R.mipmap.ic_launcher);
         }
@@ -292,20 +313,20 @@ public class MessageChatAdapter extends BaseListAdapter<BmobMsg> {
                         tv_voice_length.setVisibility(View.VISIBLE);
                         String content = item.getContent();
                         if (item.getBelongId().equals(currentObjectId)) {//发送的消息
-                            if(item.getStatus()==BmobConfig.STATUS_SEND_RECEIVERED
-                                    ||item.getStatus()==BmobConfig.STATUS_SEND_SUCCESS){//当发送成功或者发送已阅读的时候，则显示语音长度
+                            if(item.getStatus() == BmobConfig.STATUS_SEND_RECEIVERED
+                                    ||item.getStatus() == BmobConfig.STATUS_SEND_SUCCESS){//当发送成功或者发送已阅读的时候，则显示语音长度
                                 tv_voice_length.setVisibility(View.VISIBLE);
                                 String length = content.split("&")[2];
-                                tv_voice_length.setText(length+"\''");
+                                tv_voice_length.setText(length + "\''");
                             }else{
                                 tv_voice_length.setVisibility(View.INVISIBLE);
                             }
                         } else {//收到的消息
-                            boolean isExists = BmobDownloadManager.checkTargetPathExist(currentObjectId,item);
+                            boolean isExists = BmobDownloadManager.checkTargetPathExist(currentObjectId, item);
                             if(!isExists){//若指定格式的录音文件不存在，则需要下载，因为其文件比较小，故放在此下载
                                 String netUrl = content.split("&")[0];
                                 final String length = content.split("&")[1];
-                                BmobDownloadManager downloadTask = new BmobDownloadManager(mContext,item,new DownloadListener() {
+                                BmobDownloadManager downloadTask = new BmobDownloadManager(mContext, item, new DownloadListener() {
 
                                     @Override
                                     public void onStart() {
@@ -320,7 +341,7 @@ public class MessageChatAdapter extends BaseListAdapter<BmobMsg> {
                                         // TODO Auto-generated method stub
                                         progress_load.setVisibility(View.GONE);
                                         tv_voice_length.setVisibility(View.VISIBLE);
-                                        tv_voice_length.setText(length+"\''");
+                                        tv_voice_length.setText(length + "\''");
                                         iv_voice.setVisibility(View.VISIBLE);
                                     }
                                     @Override
@@ -339,7 +360,7 @@ public class MessageChatAdapter extends BaseListAdapter<BmobMsg> {
                         }
                     }
                     //播放语音文件
-                    iv_voice.setOnClickListener(new NewRecordPlayClickListener(mContext,item,iv_voice));
+                    iv_voice.setOnClickListener(new NewRecordPlayClickListener(mContext, item, iv_voice));
                 } catch (Exception e) {
 
                 }
@@ -387,7 +408,7 @@ public class MessageChatAdapter extends BaseListAdapter<BmobMsg> {
      */
     private void dealWithImage(int position,final ProgressBar progress_load,ImageView iv_fail_resend,TextView tv_send_status,ImageView iv_picture,BmobMsg item){
         String text = item.getContent();
-        if(getItemViewType(position)==TYPE_SEND_IMAGE){//发送的消息
+        if(getItemViewType(position)==TYPE_SEND_IMAGE){//发送的图片
             if(item.getStatus()==BmobConfig.STATUS_SEND_START){
                 progress_load.setVisibility(View.VISIBLE);
                 iv_fail_resend.setVisibility(View.INVISIBLE);
@@ -417,7 +438,7 @@ public class MessageChatAdapter extends BaseListAdapter<BmobMsg> {
             //为了方便每次都是取本地图片显示
             ImageLoader.getInstance().displayImage(showUrl, iv_picture);
         }else{
-            ImageLoader.getInstance().displayImage(text, iv_picture,options,new ImageLoadingListener() {
+            ImageLoader.getInstance().displayImage(text, iv_picture,options, new ImageLoadingListener() {
 
                 @Override
                 public void onLoadingStarted(String imageUri, View view) {
@@ -445,6 +466,27 @@ public class MessageChatAdapter extends BaseListAdapter<BmobMsg> {
                 }
             });
         }
+
+
+    }
+
+    public void update(Context context){
+        currentAvatar = BmobUserManager.getInstance(context).getCurrentUser().getAvatar();
+        BmobUserManager.getInstance(context).queryUserById(mTargetObjectId, new FindListener<BmobChatUser>() {
+            @Override
+            public void onSuccess(List<BmobChatUser> list) {
+                if (list.size() > 0) {
+                    targetAvatar = list.get(0).getAvatar();
+                }
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                L.e("url error");
+
+            }
+        });
+        notifyDataSetChanged();
     }
 
     private static class AnimateFirstDisplayListener extends SimpleImageLoadingListener {
@@ -462,6 +504,8 @@ public class MessageChatAdapter extends BaseListAdapter<BmobMsg> {
                 }
             }
         }
+
+
     }
 
 }

@@ -8,7 +8,7 @@ import android.text.TextUtils;
 import com.hornettao.mychat.activity.HomeActivity;
 import com.hornettao.mychat.activity.NewFriendActivity;
 import com.hornettao.mychat.utils.CollectionUtils;
-import com.hornettao.mychat.utils.NetUtils;
+import com.hornettao.mychat.utils.CommonUtils;
 
 import org.json.JSONObject;
 
@@ -32,31 +32,28 @@ import cn.bmob.v3.listener.FindListener;
 
 /**
  * 推送消息接收器
- * @ClassName: MyMessageReceiver
- * @Description: TODO
- * @author smile
- * @date 2014-5-30 下午4:01:13
  */
 public class MyMessageReceiver extends BroadcastReceiver {
 
 	// 事件监听
 	public static ArrayList<EventListener> ehList = new ArrayList<EventListener>();
-	
+
 	public static final int NOTIFY_ID = 0x000;
 	public static int mNewNum = 0;//
 	BmobUserManager userManager;
 	BmobChatUser currentUser;
 
 	//如果你想发送自定义格式的消息，请使用sendJsonMessage方法来发送Json格式的字符串，然后你按照格式自己解析并处理
-	
+
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		// TODO Auto-generated method stub
 		String json = intent.getStringExtra("msg");
 		BmobLog.i("收到的message = " + json);
+
 		userManager = BmobUserManager.getInstance(context);
 		currentUser = userManager.getCurrentUser();
-		boolean isNetConnected = NetUtils.isConnected(context);
+		boolean isNetConnected = CommonUtils.isNetworkAvailable(context);
 		if(isNetConnected){
 			parseMessage(context, json);
 		}else{
@@ -66,13 +63,13 @@ public class MyMessageReceiver extends BroadcastReceiver {
 	}
 
 	/** 解析Json字符串
-	  * @Title: parseMessage
-	  * @Description: TODO
-	  * @param @param context
-	  * @param @param json 
-	  * @return void
-	  * @throws
-	  */
+	 * @Title: parseMessage
+	 * @Description: TODO
+	 * @param @param context
+	 * @param @param json
+	 * @return void
+	 * @throws
+	 */
 	private void parseMessage(final Context context, String json) {
 		JSONObject jo;
 		try {
@@ -90,13 +87,13 @@ public class MyMessageReceiver extends BroadcastReceiver {
 				}
 			}else{
 				String fromId = BmobJsonUtil.getString(jo, BmobConstant.PUSH_KEY_TARGETID);
-			   //增加消息接收方的ObjectId--目的是解决多账户登陆同一设备时，无法接收到非当前登陆用户的消息。
+				//增加消息接收方的ObjectId--目的是解决多账户登陆同一设备时，无法接收到非当前登陆用户的消息。
 				final String toId = BmobJsonUtil.getString(jo, BmobConstant.PUSH_KEY_TOID);
 				String msgTime = BmobJsonUtil.getString(jo,BmobConstant.PUSH_READED_MSGTIME);
 				if(fromId!=null && !BmobDB.create(context,toId).isBlackUser(fromId)){//该消息发送方不为黑名单用户
 					if(TextUtils.isEmpty(tag)){//不携带tag标签--此可接收陌生人的消息
 						BmobChatManager.getInstance(context).createReceiveMsg(json, new OnReceiveListener() {
-							
+
 							@Override
 							public void onSuccess(BmobMsg msg) {
 								// TODO Auto-generated method stub
@@ -112,14 +109,14 @@ public class MyMessageReceiver extends BroadcastReceiver {
 									}
 								}
 							}
-							
+
 							@Override
 							public void onFailure(int code, String arg1) {
 								// TODO Auto-generated method stub
 								BmobLog.i("获取接收的消息失败："+arg1);
 							}
 						});
-						
+
 					}else{//带tag标签
 						if(tag.equals(BmobConfig.TAG_ADD_CONTACT)){
 							//保存好友请求道本地，并更新后台的未读字段
@@ -138,13 +135,13 @@ public class MyMessageReceiver extends BroadcastReceiver {
 							String username = BmobJsonUtil.getString(jo, BmobConstant.PUSH_KEY_TARGETUSERNAME);
 							//收到对方的同意请求之后，就得添加对方为好友--已默认添加同意方为好友，并保存到本地好友数据库
 							BmobUserManager.getInstance(context).addContactAfterAgree(username, new FindListener<BmobChatUser>() {
-								
+
 								@Override
 								public void onError(int arg0, final String arg1) {
 									// TODO Auto-generated method stub
-									
+
 								}
-								
+
 								@Override
 								public void onSuccess(List<BmobChatUser> arg0) {
 									// TODO Auto-generated method stub
@@ -156,7 +153,7 @@ public class MyMessageReceiver extends BroadcastReceiver {
 							showOtherNotify(context, username, toId,  username+"同意添加您为好友", HomeActivity.class);
 							//创建一个临时验证会话--用于在会话界面形成初始会话
 							BmobMsg.createAndSaveRecentAfterAgree(context, json);
-							
+
 						}else if(tag.equals(BmobConfig.TAG_READED)){//已读回执
 							String conversionId = BmobJsonUtil.getString(jo,BmobConstant.PUSH_READED_CONVERSIONID);
 							if(currentUser!=null){
@@ -176,20 +173,20 @@ public class MyMessageReceiver extends BroadcastReceiver {
 					BmobLog.i("该消息发送方为黑名单用户");
 				}
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			//这里截取到的有可能是web后台推送给客户端的消息，也有可能是开发者自定义发送的消息，需要开发者自行解析和处理
 			BmobLog.i("parseMessage错误："+e.getMessage());
 		}
 	}
-	
-	/** 
+
+	/**
 	 *  显示与聊天消息的通知
-	  * @Title: showNotify
-	  * @return void
-	  * @throws
-	  */
+	 * @Title: showNotify
+	 * @return void
+	 * @throws
+	 */
 	public void showMsgNotify(Context context,BmobMsg msg) {
 		// 更新通知栏
 		int icon = R.mipmap.ic_launcher;
@@ -207,27 +204,27 @@ public class MyMessageReceiver extends BroadcastReceiver {
 		}
 		CharSequence tickerText = msg.getBelongUsername() + ":" + trueMsg;
 		String contentTitle = msg.getBelongUsername()+ " (" + mNewNum + "条新消息)";
-		
+
 		Intent intent = new Intent(context, HomeActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-		
+
 		boolean isAllowVoice = MyChatApplication.getInstance().getSpUtil().isAllowVoice();
 		boolean isAllowVibrate = MyChatApplication.getInstance().getSpUtil().isAllowVibrate();
-		
+
 		BmobNotifyManager.getInstance(context).showNotifyWithExtras(isAllowVoice,isAllowVibrate,icon, tickerText.toString(), contentTitle, tickerText.toString(),intent);
 	}
-	
-	
+
+
 	/** 显示其他Tag的通知
-	  * showOtherNotify
-	  */
+	 * showOtherNotify
+	 */
 	public void showOtherNotify(Context context,String username,String toId,String ticker,Class<?> cls){
 		boolean isAllow = MyChatApplication.getInstance().getSpUtil().isAllowPushNotify();
 		boolean isAllowVoice = MyChatApplication.getInstance().getSpUtil().isAllowVoice();
 		boolean isAllowVibrate = MyChatApplication.getInstance().getSpUtil().isAllowVibrate();
 		if(isAllow && currentUser!=null && currentUser.getObjectId().equals(toId)){
 			//同时提醒通知
-			BmobNotifyManager.getInstance(context).showNotify(isAllowVoice,isAllowVibrate,R.mipmap.ic_launcher, ticker,username, ticker.toString(),NewFriendActivity.class);
+			BmobNotifyManager.getInstance(context).showNotify(isAllowVoice,isAllowVibrate,R.mipmap.ic_launcher, ticker,username, ticker.toString(), NewFriendActivity.class);
 		}
 	}
 	

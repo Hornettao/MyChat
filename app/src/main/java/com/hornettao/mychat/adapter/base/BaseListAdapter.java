@@ -19,12 +19,6 @@ import cn.bmob.im.util.BmobLog;
 
 /**
  * 基础的适配器
- *
- * @ClassName: BaseListAdapter
- * @Description: TODO
- * @author smile
- * @date 2014-6-19 上午11:04:01
- * @param <E>
  */
 @SuppressLint("UseSparseArrays")
 public abstract class BaseListAdapter<E> extends BaseAdapter {
@@ -59,11 +53,6 @@ public abstract class BaseListAdapter<E> extends BaseAdapter {
 		notifyDataSetChanged();
 	}
 
-	public void removeAll() {
-		list.clear();
-		notifyDataSetChanged();
-	}
-
 	public BaseListAdapter(Context context, List<E> list) {
 		super();
 		this.mContext = context;
@@ -95,7 +84,7 @@ public abstract class BaseListAdapter<E> extends BaseAdapter {
 	}
 
 	public abstract View bindView(int position, View convertView,
-								  ViewGroup parent);
+			ViewGroup parent);
 
 	// adapter中的内部点击事件
 	public Map<Integer, onInternalClickListener> canClickItem;
@@ -119,7 +108,7 @@ public abstract class BaseListAdapter<E> extends BaseAdapter {
 	}
 
 	public void setOnInViewClickListener(Integer key,
-										 onInternalClickListener onClickListener) {
+			onInternalClickListener onClickListener) {
 		if (canClickItem == null)
 			canClickItem = new HashMap<Integer, onInternalClickListener>();
 		canClickItem.put(key, onClickListener);

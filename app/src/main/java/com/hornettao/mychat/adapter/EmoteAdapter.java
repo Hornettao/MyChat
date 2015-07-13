@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import com.hornettao.mychat.R;
 import com.hornettao.mychat.adapter.base.BaseArrayListAdapter;
 import com.hornettao.mychat.bean.FaceText;
+import com.hornettao.mychat.utils.L;
 
 import java.util.List;
 
@@ -35,6 +36,7 @@ public class EmoteAdapter extends BaseArrayListAdapter {
         }
         FaceText faceText = (FaceText) getItem(position);
         String key = faceText.text.substring(1);
+        L.i("facetext key", key);
         Drawable drawable =mContext.getResources().getDrawable(mContext.getResources().getIdentifier(key, "mipmap", mContext.getPackageName()));
         holder.mIvImage.setImageDrawable(drawable);
         return convertView;

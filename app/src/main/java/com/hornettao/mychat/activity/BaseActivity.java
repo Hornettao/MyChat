@@ -1,13 +1,11 @@
 package com.hornettao.mychat.activity;
 
 import android.app.ActionBar;
-import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 
 import com.hornettao.mychat.MyChatApplication;
@@ -159,16 +157,17 @@ public class BaseActivity extends FragmentActivity {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		L.i("item selected==" + item.getItemId());
 		if (item.getItemId() == android.R.id.home) {
-			L.i("R.id.home");
-			Intent upIntent = NavUtils.getParentActivityIntent(this);
-			if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
-				TaskStackBuilder.create(this)
-						.addNextIntentWithParentStack(upIntent)
-						.startActivities();
-			} else {
-				upIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				NavUtils.navigateUpTo(this, upIntent);
-			}
+//			L.i("R.id.home");
+//			Intent upIntent = NavUtils.getParentActivityIntent(this);
+//			if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
+//				TaskStackBuilder.create(this)
+//						.addNextIntentWithParentStack(upIntent)
+//						.startActivities();
+//			} else {
+//				upIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//				NavUtils.navigateUpTo(this, upIntent);
+//			}
+			finish();
 			return true;
 		}
 		return super.onOptionsItemSelected(item);

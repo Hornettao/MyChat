@@ -11,6 +11,8 @@ import android.widget.FrameLayout;
 import android.widget.FrameLayout.LayoutParams;
 import android.widget.TextView;
 
+import cn.bmob.im.BmobUserManager;
+
 /**
  * 我的Fragment的界面
  */
@@ -28,7 +30,7 @@ public class MyFragment extends BaseFragment {
 		v.setLayoutParams(params);
 		v.setLayoutParams(params);
 		v.setGravity(Gravity.CENTER);
-		v.setText("我的界面");
+		v.setText(BmobUserManager.getInstance(getActivity()).getCurrentUserName());
 		v.setTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12, dm));
 		fl.addView(v);
 		return fl;

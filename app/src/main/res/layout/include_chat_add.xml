@@ -6,8 +6,8 @@
     android:layout_marginTop="10dp"
     android:layout_marginBottom="10dp"
     android:orientation="horizontal" >
-    
-    <TextView 
+
+    <TextView
         android:id="@+id/tv_picture"
         android:layout_width="0dp"
         android:layout_weight="1.0"
@@ -17,7 +17,7 @@
         android:drawableTop="@drawable/btn_chat_add_picture_selector"
         android:text="@string/picture"
         />
-    <TextView 
+    <TextView
         android:id="@+id/tv_camera"
         android:layout_width="0dp"
         android:layout_weight="1.0"
@@ -27,7 +27,7 @@
         android:drawableTop="@drawable/btn_chat_add_camera_selector"
         android:text="@string/camera"
         />
-    <TextView 
+    <TextView
         android:id="@+id/tv_location"
         android:layout_width="0dp"
         android:layout_weight="1.0"

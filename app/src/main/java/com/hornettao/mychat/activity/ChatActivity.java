@@ -46,10 +46,9 @@ import com.hornettao.mychat.adapter.MessageChatAdapter;
 import com.hornettao.mychat.bean.FaceText;
 import com.hornettao.mychat.config.Consts;
 import com.hornettao.mychat.listener.NewRecordPlayClickListener;
+import com.hornettao.mychat.utils.CommonUtils;
 import com.hornettao.mychat.utils.FaceTextUtils;
 import com.hornettao.mychat.utils.L;
-import com.hornettao.mychat.utils.NetUtils;
-import com.hornettao.mychat.utils.SDCardUtils;
 import com.hornettao.mychat.utils.T;
 import com.hornettao.mychat.view.EmoticonsEditText;
 import com.hornettao.mychat.view.dialog.DialogTips;
@@ -70,22 +69,25 @@ import cn.bmob.im.db.BmobDB;
 import cn.bmob.im.inteface.EventListener;
 import cn.bmob.im.inteface.OnRecordChangeListener;
 import cn.bmob.im.inteface.UploadListener;
+import cn.bmob.im.util.BmobLog;
 import cn.bmob.v3.listener.PushListener;
 
 /**
  * 聊天界面
  */
+@SuppressLint({ "ClickableViewAccessibility", "InflateParams" })
 public class ChatActivity extends Base2Activity implements View.OnClickListener,
         XListView.IXListViewListener, EventListener {
 
     private Button btn_chat_emo, btn_chat_send, btn_chat_add,btn_chat_keyboard, btn_speak, btn_chat_voice;
 
-    private XListView mListView;
+    XListView mListView;
 
-    private EmoticonsEditText edit_user_comment;
+    EmoticonsEditText edit_user_comment;
 
-    private String targetId = "";
-    private BmobChatUser targetUser;
+    String targetId = "";
+
+    BmobChatUser targetUser;
 
     private static int MsgPagerNum;
 
@@ -96,13 +98,13 @@ public class ChatActivity extends Base2Activity implements View.OnClickListener,
     private TextView tv_picture, tv_camera, tv_location;
 
     // 语音有关
-    private RelativeLayout layout_record;
-    private TextView tv_voice_tips;
-    private ImageView iv_record;
+    RelativeLayout layout_record;
+    TextView tv_voice_tips;
+    ImageView iv_record;
 
     private Drawable[] drawable_Anims;// 话筒动画
 
-    private BmobRecordManager recordManager;
+    BmobRecordManager recordManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,8 +117,8 @@ public class ChatActivity extends Base2Activity implements View.OnClickListener,
         // 组装聊天对象
         targetUser = (BmobChatUser) getIntent().getSerializableExtra("user");
         targetId = targetUser.getObjectId();
-//		BmobLog.i("聊天对象：" + targetUser.getUsername() + ",targetId = "
-//				+ targetId);
+		L.i("聊天对象：" + targetUser.getUsername() + ",targetId = "
+				+ targetId);
         //注册广播接收器
         initNewMessageBroadCast();
         initView();
@@ -137,7 +139,7 @@ public class ChatActivity extends Base2Activity implements View.OnClickListener,
             @Override
             public void onTimeChanged(int recordTime, String localPath) {
                 // TODO Auto-generated method stub
-                L.i("voice", "已录音长度:" + recordTime);
+                BmobLog.i("voice", "已录音长度:" + recordTime);
                 if (recordTime >= BmobRecordManager.MAX_RECORD_TIME) {// 1分钟结束，发送消息
                     // 需要重置按钮
                     btn_speak.setPressed(false);
@@ -199,7 +201,7 @@ public class ChatActivity extends Base2Activity implements View.OnClickListener,
         public boolean onTouch(View v, MotionEvent event) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    if (!SDCardUtils.isSDCardEnable()) {
+                    if (!CommonUtils.checkSdCard()) {
                         T.showShort(ChatActivity.this, "发送语音需要sdcard支持！");
                         return false;
                     }
@@ -229,12 +231,12 @@ public class ChatActivity extends Base2Activity implements View.OnClickListener,
                     try {
                         if (event.getY() < 0) {// 放弃录音
                             recordManager.cancelRecording();
-                            L.i("voice", "放弃发送语音");
+                            BmobLog.i("voice", "放弃发送语音");
                         } else {
                             int recordTime = recordManager.stopRecording();
                             if (recordTime > 1) {
                                 // 发送语音文件
-                                L.i("voice", "发送语音");
+                                BmobLog.i("voice", "发送语音");
                                 sendVoiceMessage(
                                         recordManager.getRecordFilePath(targetId),
                                         recordTime);
@@ -290,7 +292,6 @@ public class ChatActivity extends Base2Activity implements View.OnClickListener,
 
     /**
      * 显示录音时间过短的Toast
-     *
      * @Title: showShortToast
      * @return void
      * @throws
@@ -328,7 +329,7 @@ public class ChatActivity extends Base2Activity implements View.OnClickListener,
      * 加载消息历史，从数据库中读出
      */
     private List<BmobMsg> initMsgData() {
-        List<BmobMsg> list = BmobDB.create(this).queryMessages(targetId,MsgPagerNum);
+        List<BmobMsg> list = BmobDB.create(this).queryMessages(targetId, MsgPagerNum);
         return list;
     }
 
@@ -350,10 +351,11 @@ public class ChatActivity extends Base2Activity implements View.OnClickListener,
                 }
                 mListView.setSelection(mAdapter.getCount() - 1);
             } else {
-                mAdapter.notifyDataSetChanged();
+//                mAdapter.notifyDataSetChanged();
+                mAdapter.update(this);
             }
         } else {
-            mAdapter = new MessageChatAdapter(this, initMsgData());
+            mAdapter = new MessageChatAdapter(this, initMsgData(), targetId);
             mListView.setAdapter(mAdapter);
         }
     }
@@ -586,7 +588,7 @@ public class ChatActivity extends Base2Activity implements View.OnClickListener,
                     @Override
                     public void onFailure(int arg0, String arg1) {
                         // TODO Auto-generated method stub
-                        L.i("发送失败:" + arg1);
+                        L.e("发送失败:" + arg1);
                         ((BmobMsg) values)
                                 .setStatus(BmobConfig.STATUS_SEND_FAIL);
                         parentV.findViewById(R.id.progress_load).setVisibility(
@@ -684,6 +686,10 @@ public class ChatActivity extends Base2Activity implements View.OnClickListener,
                 break;
             case R.id.btn_chat_add:// 添加按钮-显示图片、拍照、位置
                 if (layout_more.getVisibility() == View.GONE) {
+                    edit_user_comment.setVisibility(View.VISIBLE);
+                    btn_chat_keyboard.setVisibility(View.GONE);
+                    btn_chat_voice.setVisibility(View.VISIBLE);
+                    btn_speak.setVisibility(View.GONE);
                     layout_more.setVisibility(View.VISIBLE);
                     layout_add.setVisibility(View.VISIBLE);
                     layout_emo.setVisibility(View.GONE);
@@ -715,13 +721,14 @@ public class ChatActivity extends Base2Activity implements View.OnClickListener,
                     T.showShort(ChatActivity.this, "请输入发送消息!");
                     return;
                 }
-                boolean isNetConnected = NetUtils.isConnected(this);
+                boolean isNetConnected = CommonUtils.isNetworkAvailable(this);
                 if (!isNetConnected) {
                     T.showShort(ChatActivity.this, R.string.network_tips);
                     // return;
                 }
                 // 组装BmobMessage对象
                 BmobMsg message = BmobMsg.createTextSendMsg(this, targetId, msg);
+                message.setExtra("Bmob");
                 // 默认发送完成，将数据保存到本地消息表和最近会话表中
                 manager.sendTextMessage(targetUser, message);
                 // 刷新界面
@@ -767,7 +774,7 @@ public class ChatActivity extends Base2Activity implements View.OnClickListener,
      */
     public void selectImageFromCamera() {
         Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        File dir = new File(Consts.BMOB_PICTURE_PATH);
+        File dir = new File(Consts.MYCHAT_PICTURE_PATH);
         if (!dir.exists()) {
             dir.mkdirs();
         }
@@ -806,7 +813,7 @@ public class ChatActivity extends Base2Activity implements View.OnClickListener,
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case Consts.REQUESTCODE_TAKE_CAMERA:// 当取到值的时候才上传path路径下的图片到服务器
-                    T.showShort(ChatActivity.this, "本地图片的地址：" + localCameraPath);
+                    L.i("本地图片的地址：" + localCameraPath);
                     sendImageMessage(localCameraPath);
                     break;
                 case Consts.REQUESTCODE_TAKE_LOCAL:
@@ -824,6 +831,7 @@ public class ChatActivity extends Base2Activity implements View.OnClickListener,
                                 T.showShort(ChatActivity.this, "找不到您想要的图片");
                                 return;
                             }
+                            L.i("拍照图片的地址：" + localSelectPath);
                             sendImageMessage(localSelectPath);
                         }
                     }
@@ -888,7 +896,7 @@ public class ChatActivity extends Base2Activity implements View.OnClickListener,
             @Override
             public void onStart(BmobMsg msg) {
                 // TODO Auto-generated method stub
-                L.e("开始上传onStart：" + msg.getContent() + ",状态："
+                L.i("开始上传onStart：" + msg.getContent() + ",状态："
                         + msg.getStatus());
                 refreshMessage(msg);
             }
@@ -1017,15 +1025,17 @@ public class ChatActivity extends Base2Activity implements View.OnClickListener,
             String msgId = intent.getStringExtra("msgId");
             String msgTime = intent.getStringExtra("msgTime");
             // 收到这个广播的时候，message已经在消息表中，可直接获取
-            BmobMsg msg = BmobChatManager.getInstance(ChatActivity.this).getMessage(msgId, msgTime);
-            if (!from.equals(targetId))// 如果不是当前正在聊天对象的消息，不处理
-                return;
-            //添加到当前页面
-            mAdapter.add(msg);
-            // 定位
-            mListView.setSelection(mAdapter.getCount() - 1);
-            //取消当前聊天对象的未读标示
-            BmobDB.create(ChatActivity.this).resetUnread(targetId);
+            if(TextUtils.isEmpty(from)&&TextUtils.isEmpty(msgId)&&TextUtils.isEmpty(msgTime)){
+                BmobMsg msg = BmobChatManager.getInstance(ChatActivity.this).getMessage(msgId, msgTime);
+                if (!from.equals(targetId))// 如果不是当前正在聊天对象的消息，不处理
+                    return;
+                //添加到当前页面
+                mAdapter.add(msg);
+                // 定位
+                mListView.setSelection(mAdapter.getCount() - 1);
+                //取消当前聊天对象的未读标示
+                BmobDB.create(ChatActivity.this).resetUnread(targetId);
+            }
             // 记得把广播给终结掉
             abortBroadcast();
         }
@@ -1078,6 +1088,7 @@ public class ChatActivity extends Base2Activity implements View.OnClickListener,
     @Override
     public void onReaded(String conversionId, String msgTime) {
         // TODO Auto-generated method stub
+        // TODO Auto-generated method stub
         // 此处应该过滤掉不是和当前用户的聊天的回执消息界面的刷新
         if (conversionId.split("&")[1].equals(targetId)) {
             // 修改界面上指定消息的阅读状态
@@ -1100,7 +1111,7 @@ public class ChatActivity extends Base2Activity implements View.OnClickListener,
                 // TODO Auto-generated method stub
                 MsgPagerNum++;
                 int total = BmobDB.create(ChatActivity.this).queryChatTotalCount(targetId);
-                L.i("记录总数：" + total);
+                BmobLog.i("记录总数：" + total);
                 int currents = mAdapter.getCount();
                 if (total <= currents) {
                     T.showShort(ChatActivity.this, "聊天记录加载完了哦!");
@@ -1117,14 +1128,13 @@ public class ChatActivity extends Base2Activity implements View.OnClickListener,
     @Override
     public void onLoadMore() {
         // TODO Auto-generated method stub
-
     }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         // TODO Auto-generated method stub
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            if (layout_more.getVisibility() == 0) {
+            if (layout_more.getVisibility() == View.VISIBLE) {
                 layout_more.setVisibility(View.GONE);
                 return false;
             } else {
@@ -1144,22 +1154,14 @@ public class ChatActivity extends Base2Activity implements View.OnClickListener,
             unregisterReceiver(receiver);
         } catch (Exception e) {
         }
-
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == android.R.id.home) {
+        if (item.getItemId() == android.R.id.home) {
             finish();
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

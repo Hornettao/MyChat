@@ -1,10 +1,7 @@
 package com.hornettao.mychat.activity;
 
-/**
- * Created by hornettao on 15/7/11.
- */
-
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -16,9 +13,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -34,6 +31,7 @@ import com.bmob.BmobProFile;
 import com.bmob.btp.callback.UploadListener;
 import com.hornettao.mychat.MyChatApplication;
 import com.hornettao.mychat.R;
+import com.hornettao.mychat.bean.Blog;
 import com.hornettao.mychat.bean.User;
 import com.hornettao.mychat.config.Consts;
 import com.hornettao.mychat.utils.CollectionUtils;
@@ -50,22 +48,21 @@ import java.util.Date;
 import java.util.List;
 
 import cn.bmob.im.BmobChatManager;
+import cn.bmob.im.config.BmobConfig;
 import cn.bmob.im.db.BmobDB;
-import cn.bmob.im.inteface.MsgTag;
+import cn.bmob.im.util.BmobLog;
 import cn.bmob.v3.datatype.BmobFile;
 import cn.bmob.v3.listener.FindListener;
 import cn.bmob.v3.listener.PushListener;
+import cn.bmob.v3.listener.SaveListener;
 import cn.bmob.v3.listener.UpdateListener;
 
 /**
  * 个人资料页面
- *
- * @ClassName: SetMyInfoActivity
- * @Description: TODO
- * @author smile
- * @date 2014-6-10 下午2:55:19
+ *Created by hornettao on 15/7/11.
  */
-@SuppressLint("SimpleDateFormat")
+@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+@SuppressLint({ "SimpleDateFormat", "ClickableViewAccessibility", "InflateParams" })
 public class SetMyInfoActivity extends Base2Activity implements View.OnClickListener {
 
     TextView tv_set_name, tv_set_nick, tv_set_gender;
@@ -106,7 +103,7 @@ public class SetMyInfoActivity extends Base2Activity implements View.OnClickList
         layout_head = (RelativeLayout) findViewById(R.id.layout_head);
         layout_nick = (RelativeLayout) findViewById(R.id.layout_nick);
         layout_gender = (RelativeLayout) findViewById(R.id.layout_gender);
-        // 黑名单提示语Ø
+        // 黑名单提示语
         layout_black_tips = (RelativeLayout) findViewById(R.id.layout_black_tips);
         tv_set_gender = (TextView) findViewById(R.id.tv_set_gender);
         btn_chat = (Button) findViewById(R.id.btn_chat);
@@ -115,7 +112,6 @@ public class SetMyInfoActivity extends Base2Activity implements View.OnClickList
         btn_add_friend.setEnabled(false);
         btn_chat.setEnabled(false);
         btn_back.setEnabled(false);
-        //来自我的，进入的是自己的信息页面
         if (from.equals("me")) {
             layout_head.setOnClickListener(this);
             layout_nick.setOnClickListener(this);
@@ -155,6 +151,7 @@ public class SetMyInfoActivity extends Base2Activity implements View.OnClickList
 
     private void initMeData() {
         User user = userManager.getCurrentUser(User.class);
+        BmobLog.i("hight = " + user.getHight() + ",sex= " + user.getSex());
         initOtherData(user.getUsername());
     }
 
@@ -188,11 +185,7 @@ public class SetMyInfoActivity extends Base2Activity implements View.OnClickList
         refreshAvatar(user.getAvatar());
         tv_set_name.setText(user.getUsername());
         tv_set_nick.setText(user.getNick());
-        if (user.getSex() != null) {
-            tv_set_gender.setText(user.getSex() ? "男" : "女");
-        } else {
-            tv_set_gender.setText("保密");
-        }
+        tv_set_gender.setText(user.getSex() == true ? "男" : "女");
         // 检测是否为黑名单用户
         if (from.equals("other")) {
             if (BmobDB.create(this).isBlackUser(user.getUsername())) {
@@ -244,6 +237,7 @@ public class SetMyInfoActivity extends Base2Activity implements View.OnClickList
                 break;
             case R.id.layout_nick:
                 startAnimActivity(UpdateInfoActivity.class);
+//			addBlog();
                 break;
             case R.id.layout_gender:// 性别
                 showSexChooseDialog();
@@ -251,11 +245,12 @@ public class SetMyInfoActivity extends Base2Activity implements View.OnClickList
             case R.id.btn_back:// 黑名单
                 showBlackDialog(user.getUsername());
                 break;
-            case R.id.btn_add_friend:// 添加好友
+            case R.id.btn_add_friend://添加好友
                 addFriend();
                 break;
         }
     }
+
     String[] sexs = new String[]{ "男", "女" };
     private void showSexChooseDialog() {
         new AlertDialog.Builder(this)
@@ -265,7 +260,7 @@ public class SetMyInfoActivity extends Base2Activity implements View.OnClickList
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,
                                                 int which) {
-                                L.i("点击的是"+sexs[which]);
+                                BmobLog.i("点击的是" + sexs[which]);
                                 updateInfo(which);
                                 dialog.dismiss();
                             }
@@ -282,22 +277,19 @@ public class SetMyInfoActivity extends Base2Activity implements View.OnClickList
      * @throws
      */
     private void updateInfo(int which) {
-        final User user = userManager.getCurrentUser(User.class);
-        L.i("updateInfo 性别：" + user.getSex());
+        final User u = new User();
         if(which==0){
-            user.setSex(true);
+            u.setSex(true);
         }else{
-            user.setSex(false);
+            u.setSex(false);
         }
-        user.update(this, new UpdateListener() {
+        updateUserData(u, new UpdateListener() {
 
             @Override
             public void onSuccess() {
                 // TODO Auto-generated method stub
                 T.showShort(SetMyInfoActivity.this, "修改成功");
-                final User u = userManager.getCurrentUser(User.class);
-                L.i("修改成功后的sex = "+u.getSex());
-                tv_set_gender.setText(user.getSex() == true ? "男" : "女");
+                tv_set_gender.setText(u.getSex() == true ? "男" : "女");
             }
 
             @Override
@@ -322,7 +314,7 @@ public class SetMyInfoActivity extends Base2Activity implements View.OnClickList
         progress.setCanceledOnTouchOutside(false);
         progress.show();
         // 发送tag请求
-        BmobChatManager.getInstance(this).sendTagMessage(MsgTag.ADD_CONTACT,
+        BmobChatManager.getInstance(this).sendTagMessage(BmobConfig.TAG_ADD_CONTACT,
                 user.getObjectId(), new PushListener() {
 
                     @Override
@@ -336,7 +328,8 @@ public class SetMyInfoActivity extends Base2Activity implements View.OnClickList
                     public void onFailure(int arg0, final String arg1) {
                         // TODO Auto-generated method stub
                         progress.dismiss();
-                        T.showShort(SetMyInfoActivity.this, "发送请求失败:" + arg1);
+                        T.showShort(SetMyInfoActivity.this, "发送请求成功，等待对方验证！");
+                        L.e("发送请求失败:" + arg1);
                     }
                 });
     }
@@ -387,50 +380,6 @@ public class SetMyInfoActivity extends Base2Activity implements View.OnClickList
 
     public String filePath = "";
 
-
-    /**
-     * 启动相机拍照 startCamera
-     *
-     * @Title: startCamera
-     * @throws
-     */
-    public void selectImageFromCamera() {
-        Intent openCameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        File dir = new File(Consts.MYCHAT_PICTURE_PATH);
-        if (!dir.exists()) {
-            dir.mkdirs();
-        }
-        File file = new File(dir, String.valueOf(System.currentTimeMillis())
-                + ".jpg");
-        filePath = file.getPath();
-        L.i("here" + filePath);
-        Uri imageUri = Uri.fromFile(file);
-        openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
-        startActivityForResult(openCameraIntent,
-                Consts.REQUESTCODE_UPLOADAVATAR_CAMERA);
-    }
-
-    /**
-     * 选择图片
-     * @Title: selectImage
-     * @Description: TODO
-     * @param
-     * @return void
-     * @throws
-     */
-    public void selectImageFromLocal() {
-        Intent intent;
-        if (Build.VERSION.SDK_INT < 19) {
-            intent = new Intent(Intent.ACTION_GET_CONTENT);
-            intent.setType("image/*");
-        } else {
-            intent = new Intent(
-                    Intent.ACTION_PICK,
-                    android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        }
-        startActivityForResult(intent, Consts.REQUESTCODE_UPLOADAVATAR_LOCATION);
-    }
-
     private void showAvatarPop() {
         View view = LayoutInflater.from(this).inflate(R.layout.pop_showavator,
                 null);
@@ -446,7 +395,20 @@ public class SetMyInfoActivity extends Base2Activity implements View.OnClickList
                         R.color.base_color_text_white));
                 layout_photo.setBackgroundDrawable(getResources().getDrawable(
                         R.mipmap.pop_bg_press));
-                selectImageFromCamera();
+                File dir = new File(Consts.MyAvatarDir);
+                if (!dir.exists()) {
+                    dir.mkdirs();
+                }
+                // 原图
+                File file = new File(dir, new SimpleDateFormat("yyMMddHHmmss")
+                        .format(new Date()));
+                filePath = file.getAbsolutePath();// 获取相片的保存路径
+                Uri imageUri = Uri.fromFile(file);
+
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+                startActivityForResult(intent,
+                        Consts.REQUESTCODE_UPLOADAVATAR_CAMERA);
             }
         });
         layout_choose.setOnClickListener(new View.OnClickListener() {
@@ -459,7 +421,11 @@ public class SetMyInfoActivity extends Base2Activity implements View.OnClickList
                         R.color.base_color_text_white));
                 layout_choose.setBackgroundDrawable(getResources().getDrawable(
                         R.mipmap.pop_bg_press));
-                selectImageFromLocal();
+                Intent intent = new Intent(Intent.ACTION_PICK, null);
+                intent.setDataAndType(
+                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI, "image/*");
+                startActivityForResult(intent,
+                        Consts.REQUESTCODE_UPLOADAVATAR_LOCATION);
             }
         });
 
@@ -523,7 +489,6 @@ public class SetMyInfoActivity extends Base2Activity implements View.OnClickList
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case Consts.REQUESTCODE_UPLOADAVATAR_CAMERA:// 拍照修改头像
-                L.i("taoychere");
                 if (resultCode == RESULT_OK) {
                     if (!Environment.getExternalStorageState().equals(
                             Environment.MEDIA_MOUNTED)) {
@@ -532,9 +497,8 @@ public class SetMyInfoActivity extends Base2Activity implements View.OnClickList
                     }
                     isFromCamera = true;
                     File file = new File(filePath);
-                    L.i("拍照修改头像" + filePath);
                     degree = PhotoUtil.readPictureDegree(file.getAbsolutePath());
-                    L.i("拍照后的角度：" + degree);
+                    Log.i("life", "拍照后的角度：" + degree);
                     startImageAction(Uri.fromFile(file), 200, 200,
                             Consts.REQUESTCODE_UPLOADAVATAR_CROP, true);
                 }
@@ -547,9 +511,6 @@ public class SetMyInfoActivity extends Base2Activity implements View.OnClickList
                 if (data == null) {
                     return;
                 }
-
-
-
                 if (resultCode == RESULT_OK) {
                     if (!Environment.getExternalStorageState().equals(
                             Environment.MEDIA_MOUNTED)) {
@@ -588,6 +549,7 @@ public class SetMyInfoActivity extends Base2Activity implements View.OnClickList
     }
 
     private void uploadAvatar() {
+        BmobLog.i("头像地址：" + path);
         BTPFileResponse response = BmobProFile.getInstance(this).upload(path, new UploadListener() {
             @Override
             public void onSuccess(String s, String s1, BmobFile bmobFile) {
@@ -609,9 +571,9 @@ public class SetMyInfoActivity extends Base2Activity implements View.OnClickList
     }
 
     private void updateUserAvatar(final String url) {
-        User user = (User) userManager.getCurrentUser(User.class);
-        user.setAvatar(url);
-        user.update(this, new UpdateListener() {
+        User  u =new User();
+        u.setAvatar(url);
+        updateUserData(u, new UpdateListener() {
             @Override
             public void onSuccess() {
                 // TODO Auto-generated method stub
@@ -639,7 +601,7 @@ public class SetMyInfoActivity extends Base2Activity implements View.OnClickList
         Bundle extras = data.getExtras();
         if (extras != null) {
             Bitmap bitmap = extras.getParcelable("data");
-            L.i("avatar - bitmap = " + bitmap);
+            Log.i("life", "avatar - bitmap = " + bitmap);
             if (bitmap != null) {
                 bitmap = PhotoUtil.toRoundCorner(bitmap, 10);
                 if (isFromCamera && degree != 0) {
@@ -648,24 +610,69 @@ public class SetMyInfoActivity extends Base2Activity implements View.OnClickList
                 iv_set_avator.setImageBitmap(bitmap);
                 // 保存图片
                 String filename = new SimpleDateFormat("yyMMddHHmmss")
-                        .format(new Date());
+                        .format(new Date())+".png";
                 path = Consts.MyAvatarDir + filename;
                 PhotoUtil.saveBitmap(Consts.MyAvatarDir, filename,
                         bitmap, true);
-            }
-            // 上传头像
-            if (bitmap != null && bitmap.isRecycled()) {
-                bitmap.recycle();
+                // 上传头像
+                if (bitmap != null && bitmap.isRecycled()) {
+                    bitmap.recycle();
+                }
             }
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+    /** 测试关联关系是否可用
+     * @Title: addBlog
+     * @Description: TODO
+     * @param
+     * @return void
+     * @throws
+     */
+    public void addBlog(){
+        //		BmobRelation relation = new BmobRelation();
+        //		blog.setObjectId("c7a9ca9c0c");
+        //		relation.add(blog);
+        //		user.setBlogs(relation);
+        final Blog blog = new Blog();
+        blog.setBrief("你好");
+        blog.save(this, new SaveListener() {
+
+            @Override
+            public void onSuccess() {
+                // TODO Auto-generated method stub
+                BmobLog.i("blog保存成功");
+                User  u =new User();
+                u.setBlog(blog);
+                updateUserData(u, new UpdateListener() {
+
+                    @Override
+                    public void onSuccess() {
+                        // TODO Auto-generated method stub
+                        BmobLog.i("user更新成功");
+                    }
+
+                    @Override
+                    public void onFailure(int code, String msg) {
+                        // TODO Auto-generated method stub
+                        BmobLog.i("code = "+code+",msg = "+msg);
+                    }
+                });
+
+            }
+
+            @Override
+            public void onFailure(int arg0, String arg1) {
+                // TODO Auto-generated method stub
+
+            }
+        });
     }
+
+    private void updateUserData(User user,UpdateListener listener){
+        User current = (User) userManager.getCurrentUser(User.class);
+        user.setObjectId(current.getObjectId());
+        user.update(this, listener);
+    }
+
 }

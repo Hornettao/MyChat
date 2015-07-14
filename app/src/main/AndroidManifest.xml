@@ -114,9 +114,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.hornettao.mychat.activity.HomeActivity" />
         </activity>
-        <activity android:name=".activity.ChatActivity"
-            android:launchMode="singleTask"/>
-
+        <activity
+            android:name=".activity.ChatActivity"
+            android:launchMode="singleTask" />
         <activity
             android:name=".activity.LocationActivity"
             android:label="@string/title_activity_location" >
@@ -125,9 +125,9 @@
             android:name=".activity.ImageBrowserActivity"
             android:label="@string/title_activity_image_browser" >
         </activity>
-        <activity android:name=".activity.BlackListActivity"/>
-        <activity android:name=".activity.NearPeopleActivity"/>
-        <activity android:name=".activity.UpdateInfoActivity"/>
+        <activity android:name=".activity.BlackListActivity" />
+        <activity android:name=".activity.NearPeopleActivity" />
+        <activity android:name=".activity.UpdateInfoActivity" />
         <!-- 百度地图开发者key -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
@@ -172,6 +172,7 @@
         </receiver>
         <!-- IM聊天所需的Push end -->
 
+
         <!-- 启动定时检测操作 -->
         <service android:name="cn.bmob.im.poll.BmobPollService" >
             <intent-filter>
@@ -179,6 +180,14 @@
             </intent-filter>
         </service>
 
+        <activity
+            android:name=".activity.ForgetPasswordActivity"
+            android:label="@string/title_activity_forget_password" >
+        </activity>
+        <activity
+            android:name=".activity.ResetPasswordActivity"
+            android:label="@string/title_activity_reset_password" >
+        </activity>
     </application>
 
 </manifest>

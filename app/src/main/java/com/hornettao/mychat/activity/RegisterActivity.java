@@ -39,7 +39,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     private void setUpView() {
         registerButton = (Button) this.findViewById(R.id.button_register);
         passwordEditText = (EditText) this.findViewById(R.id.edit_text_password);
-        confirmPasswordEditText = (EditText) this.findViewById(R.id.edit_text_password_confirm);
+        confirmPasswordEditText = (EditText) this.findViewById(R.id.edit_text_sms_code);
         registerButton.setOnClickListener(this);
     }
 

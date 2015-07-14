@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.hornettao.mychat.R;
 import com.hornettao.mychat.config.Consts;
@@ -23,6 +24,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private EditText phoneNumberEditText;
     private EditText passwordEditText;
     private Button loginButton;
+    private TextView forgetPwdTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +38,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     private void setUpView() {
         phoneNumberEditText = (EditText) findViewById(R.id.edit_text_phone_number);
         passwordEditText = (EditText) findViewById(R.id.edit_text_password);
+        forgetPwdTextView = (TextView) findViewById(R.id.text_view_forget_pwd);
         loginButton = (Button) findViewById(R.id.button_login);
         loginButton.setOnClickListener(this);
     }
@@ -106,6 +109,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 }
                 login();
                 break;
+            case R.id.text_view_forget_pwd:
+                startAnimActivity(ForgetPasswordActivity.class);
             default:
                 break;
         }

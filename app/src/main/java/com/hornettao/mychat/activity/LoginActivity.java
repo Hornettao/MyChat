@@ -41,6 +41,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         forgetPwdTextView = (TextView) findViewById(R.id.text_view_forget_pwd);
         loginButton = (Button) findViewById(R.id.button_login);
         loginButton.setOnClickListener(this);
+        forgetPwdTextView.setOnClickListener(this);
     }
 
 
@@ -111,6 +112,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 break;
             case R.id.text_view_forget_pwd:
                 startAnimActivity(ForgetPasswordActivity.class);
+                break;
             default:
                 break;
         }

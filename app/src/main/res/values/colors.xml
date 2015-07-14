@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="standard_color_1">#FF319b56</color>
+    <color name="standard_color_1">#319b56</color>
     <color name="standard_color_1_pressed">#A5319b56</color>
     <color name="standard_color_2">#fffae8</color>
     <color name="standard_color_3">#f9f9f9</color>
     <color name="standard_color_4">#9edbb3</color>
+    <color name="standard_color_4_pressed">#A59edbb3</color>
 
     <color name="base_color">#2A8D44</color>
     <color name="button_normal_welcome_activity">#2A8D44</color>

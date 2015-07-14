@@ -82,13 +82,15 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         progress.show();
         //由于每个应用的注册所需的资料都不一样，故IM sdk未提供注册方法，用户可按照bmod SDK的注册方式进行注册。
         //注册的时候需要注意两点：1、User表中绑定设备id和type，2、设备表中绑定username字段
-        final User bu = new User();
-        bu.setUsername(phoneNumber);
-        bu.setPassword(password);
+        final User user = new User();
+        user.setUsername(phoneNumber);
+        user.setPassword(password);
+        user.setMobilePhoneNumber(phoneNumber);
+        user.setMobilePhoneNumberVerified(true);
         //将user和设备id进行绑定
-        bu.setDeviceType("android");
-        bu.setInstallId(BmobInstallation.getInstallationId(this));
-        bu.signUp(RegisterActivity.this, new SaveListener() {
+        user.setDeviceType("android");
+        user.setInstallId(BmobInstallation.getInstallationId(this));
+        user.signUp(RegisterActivity.this, new SaveListener() {
 
             @Override
             public void onSuccess() {
@@ -96,7 +98,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
                 progress.dismiss();
                 T.showShort(RegisterActivity.this, "注册成功");
                 // 将设备与username进行绑定
-                userManager.bindInstallationForRegister(bu.getUsername());
+                userManager.bindInstallationForRegister(user.getUsername());
                 //更新地理位置信息
                 updateUserLocation();
                 //发广播通知登陆页面退出

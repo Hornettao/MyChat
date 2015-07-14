@@ -60,7 +60,7 @@ public class VerifySMSCodeActivity extends BaseActivity implements View.OnClickL
 
     private void verifySmsCode() {
         smsCode = smsCodeEditText.getText().toString();
-        if (TextUtils.isEmpty(phoneNumber)) {
+        if (TextUtils.isEmpty(smsCode)) {
             T.showShort(this, R.string.toast_error_sms_code_null);
             return;
         }
@@ -74,6 +74,7 @@ public class VerifySMSCodeActivity extends BaseActivity implements View.OnClickL
                     startActivity(intent);
                     finish();
                 } else {
+                    T.showShort(VerifySMSCodeActivity.this, "验证码错误");
                     L.i("验证失败：code =" + e.getErrorCode() + ",msg = " + e.getLocalizedMessage());
                 }
             }
@@ -88,6 +89,7 @@ public class VerifySMSCodeActivity extends BaseActivity implements View.OnClickL
         }
         countTimer = new MyCountTimer(resendSMSCodeDelay, countUnit);
         countTimer.start();
+        sendSMSCodeButton.setClickable(false);
         BmobSMS.requestSMSCode(this, phoneNumber, "注册验证码模板", new RequestSMSCodeListener() {
             @Override
             public void done(Integer integer, BmobException e) {
@@ -98,6 +100,7 @@ public class VerifySMSCodeActivity extends BaseActivity implements View.OnClickL
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            sendSMSCodeButton.setClickable(true);
                             sendSMSCodeButton.setText("发送失败，点击重发");
                         }
                     });
@@ -131,6 +134,7 @@ public class VerifySMSCodeActivity extends BaseActivity implements View.OnClickL
         @Override
         public void onFinish() {
             sendSMSCodeButton.setText("重新发送验证码");
+            sendSMSCodeButton.setClickable(true);
         }
     }
 }

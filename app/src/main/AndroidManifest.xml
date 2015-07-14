@@ -128,6 +128,23 @@
         <activity android:name=".activity.BlackListActivity" />
         <activity android:name=".activity.NearPeopleActivity" />
         <activity android:name=".activity.UpdateInfoActivity" />
+        <activity
+            android:name=".activity.ForgetPasswordActivity"
+            android:label="@string/title_activity_forget_password" >
+        </activity>
+        <activity
+            android:name=".activity.ResetPasswordActivity"
+            android:label="@string/title_activity_reset_password" >
+        </activity>
+        <activity
+            android:name=".activity.PublishTaskActivity"
+            android:label="@string/title_activity_publish_task" >
+        </activity>
+        <activity
+            android:name=".activity.MyQRCodeActivity"
+            android:label="@string/title_activity_my_qrcode" >
+        </activity>
+        <activity android:name="com.zxing.activity.CaptureActivity"/>
         <!-- 百度地图开发者key -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
@@ -180,14 +197,7 @@
             </intent-filter>
         </service>
 
-        <activity
-            android:name=".activity.ForgetPasswordActivity"
-            android:label="@string/title_activity_forget_password" >
-        </activity>
-        <activity
-            android:name=".activity.ResetPasswordActivity"
-            android:label="@string/title_activity_reset_password" >
-        </activity>
+
     </application>
 
 </manifest>

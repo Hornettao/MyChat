@@ -102,6 +102,7 @@
     <string name="plus_video_chat">视频聊天</string>
     <string name="plus_scan">扫一扫</string>
     <string name="plus_take_photo">拍照分享</string>
+    <string name="plus_publish_task">发布任务</string>
     <string name="title_activity_new_friend">NewFriendActivity</string>
 
     <string name="hello_world">Hello world!</string>
@@ -110,4 +111,6 @@
     <string name="title_activity_image_browser">ImageBrowserActivity</string>
     <string name="title_activity_forget_password">忘记密码</string>
     <string name="title_activity_reset_password">重置密码</string>
+    <string name="title_activity_publish_task">PublishTaskActivity</string>
+    <string name="title_activity_my_qrcode">MyQRCodeActivity</string>
 </resources>

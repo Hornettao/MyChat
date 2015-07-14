@@ -1,21 +1,32 @@
 package com.hornettao.mychat.fragment;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.ActionProvider;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.hornettao.mychat.MyChatApplication;
 import com.hornettao.mychat.R;
 import com.hornettao.mychat.activity.ChatActivity;
+import com.hornettao.mychat.activity.PublishTaskActivity;
 import com.hornettao.mychat.adapter.MessageRecentAdapter;
+import com.hornettao.mychat.utils.L;
 import com.hornettao.mychat.view.ClearEditText;
 import com.hornettao.mychat.view.dialog.DialogTips;
+import com.zxing.activity.CaptureActivity;
 
 import cn.bmob.im.bean.BmobChatUser;
 import cn.bmob.im.bean.BmobRecent;
@@ -152,6 +163,12 @@ public class RecentFragment extends BaseFragment implements AdapterView.OnItemCl
 		if(!hidden){
 			refresh();
 		}
+	}
+
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_recent, menu);
+		super.onCreateOptionsMenu(menu, inflater);
 	}
 
 }

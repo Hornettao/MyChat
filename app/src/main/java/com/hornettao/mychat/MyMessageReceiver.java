@@ -224,7 +224,7 @@ public class MyMessageReceiver extends BroadcastReceiver {
 		boolean isAllowVibrate = MyChatApplication.getInstance().getSpUtil().isAllowVibrate();
 		if(isAllow && currentUser!=null && currentUser.getObjectId().equals(toId)){
 			//同时提醒通知
-			BmobNotifyManager.getInstance(context).showNotify(isAllowVoice,isAllowVibrate,R.mipmap.ic_launcher, ticker,username, ticker.toString(), NewFriendActivity.class);
+			BmobNotifyManager.getInstance(context).showNotify(isAllowVoice,isAllowVibrate,R.mipmap.ic_launcher, ticker,username, ticker.toString(), cls);
 		}
 	}
 	

@@ -1,0 +1,10 @@
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.hornettao.mychat.activity.ChatActivity">
+    <item
+        android:id="@+id/action_my_qr_code"
+        android:title="我的二维码"
+        android:orderInCategory="100"
+        android:showAsAction="always" />
+</menu>

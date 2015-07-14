@@ -4,6 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -15,6 +18,7 @@ import com.hornettao.mychat.MyChatApplication;
 import com.hornettao.mychat.R;
 import com.hornettao.mychat.activity.BlackListActivity;
 import com.hornettao.mychat.activity.LoginActivity;
+import com.hornettao.mychat.activity.MyQRCodeActivity;
 import com.hornettao.mychat.activity.SetMyInfoActivity;
 import com.hornettao.mychat.utils.SharePreferenceUtil;
 
@@ -192,4 +196,21 @@ public class SettingsFragment extends BaseFragment implements View.OnClickListen
         }
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_settings, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_my_qr_code:
+                startAnimActivity(MyQRCodeActivity.class);
+                return true;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

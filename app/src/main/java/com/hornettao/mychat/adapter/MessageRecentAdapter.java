@@ -64,7 +64,6 @@ public class MessageRecentAdapter extends ArrayAdapter<BmobRecent> implements Fi
             @Override
             public void onSuccess(List<BmobChatUser> list) {
                 String url = list.get(0).getAvatar();
-                L.i("recent adapter", url);
                 String avatar = url;
                 if(avatar!=null&& !avatar.equals("")){
                     ImageLoader.getInstance().displayImage(avatar, iv_recent_avatar, ImageLoadOptions.getOptions());

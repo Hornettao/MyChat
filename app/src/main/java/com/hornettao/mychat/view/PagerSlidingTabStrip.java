@@ -33,6 +33,7 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -40,6 +41,7 @@ import android.widget.TextView;
 
 import com.hornettao.mychat.R;
 import com.hornettao.mychat.utils.DensityUtils;
+import com.hornettao.mychat.utils.L;
 import com.jauker.widget.BadgeView;
 
 import java.util.Locale;
@@ -278,7 +280,6 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 	private void updateTabStyles() {
 		for (int i = 0; i < tabCount; i++) {
 			View v = tabsContainer.getChildAt(i);
-
 			v.setBackgroundResource(tabBackgroundResId);
 
 			if (v instanceof TextView) {
@@ -314,6 +315,7 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 					tab.setTextColor(selectedTabTextColor);
 				}
 			}
+
 		}
 
 	}
@@ -387,6 +389,12 @@ public class PagerSlidingTabStrip extends HorizontalScrollView {
 		public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 			currentPosition = position;
 			currentPositionOffset = positionOffset;
+//			if (currentPosition == 0) {
+//				chatBadgeView.setTextColor(Color.parseColor("#45c01a"));
+//			}
+//			if (currentPosition == 1) {
+//				chatBadgeView.setTextColor(Color.parseColor("#45c01a"));
+//			}
 
 			scrollToChild(position, (int) (positionOffset * tabsContainer.getChildAt(position).getWidth()));
 

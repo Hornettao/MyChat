@@ -102,7 +102,6 @@ public class HomeActivity extends Base2Activity implements EventListener {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 currentPosition = position;
-                L.i("当前位置" + currentPosition);
             }
 
             @Override
@@ -407,13 +406,6 @@ public class HomeActivity extends Base2Activity implements EventListener {
     @Override
     public boolean onMenuItemSelected(int featureId, MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_card:
-                L.i("点击银行卡");
-                tabs.setChatBadgeViewCount(10);
-                return true;
-            case R.id.action_album:
-                tabs.setContactsBadgeViewCount(5);
-                return true;
             case android.R.id.home:
                 return true;
             default:
@@ -454,5 +446,11 @@ public class HomeActivity extends Base2Activity implements EventListener {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        L.i("hihi， 回来了");
     }
 }

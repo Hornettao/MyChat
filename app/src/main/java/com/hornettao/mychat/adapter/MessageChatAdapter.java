@@ -278,7 +278,6 @@ public class MessageChatAdapter extends BaseListAdapter<BmobMsg> {
                             mContext.startActivity(intent);
                         }
                     });
-
                 } catch (Exception e) {
                 }
                 break;

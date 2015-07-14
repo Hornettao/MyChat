@@ -1,6 +1,7 @@
 package com.hornettao.mychat.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.ActionProvider;
 import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
@@ -8,6 +9,9 @@ import android.view.SubMenu;
 import android.view.View;
 
 import com.hornettao.mychat.R;
+import com.hornettao.mychat.activity.PublishTaskActivity;
+import com.hornettao.mychat.utils.L;
+import com.zxing.activity.CaptureActivity;
 
 public class PlusActionProvider extends ActionProvider {
 
@@ -55,17 +59,28 @@ public class PlusActionProvider extends ActionProvider {
 				.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 					@Override
 					public boolean onMenuItemClick(MenuItem item) {
+						context.startActivity(new Intent(context, CaptureActivity.class));
+						L.v("scan");
 						return false;
 					}
 				});
-		subMenu.add(context.getString(R.string.plus_take_photo))
+//		subMenu.add(context.getString(R.string.plus_take_photo))
+//				.setIcon(R.mipmap.ofm_camera_icon)
+//				.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+//					@Override
+//					public boolean onMenuItemClick(MenuItem item) {
+//						return false;
+//					}
+//				});
+		subMenu.add(context.getString(R.string.plus_publish_task))
 				.setIcon(R.mipmap.ofm_camera_icon)
 				.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-					@Override
-					public boolean onMenuItemClick(MenuItem item) {
-						return false;
-					}
-				});
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        context.startActivity(new Intent(context, PublishTaskActivity.class));
+                        return false;
+                    }
+                });
 	}
 
 	@Override

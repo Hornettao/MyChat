@@ -115,7 +115,14 @@ public class FriendCircleActivity extends Base2Activity {
     }
 
     @JavascriptInterface
-    public User getCurrentUser() {
-        return BmobUser.getCurrentUser(this, User.class);
+    public String getCurrentUserId() {
+//        User
+//        runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//
+//            }
+//        });
+        return BmobUser.getCurrentUser(this, User.class).getObjectId();
     }
 }

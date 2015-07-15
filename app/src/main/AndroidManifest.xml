@@ -137,10 +137,6 @@
             android:label="@string/title_activity_reset_password" >
         </activity>
         <activity
-            android:name=".activity.PublishTaskActivity"
-            android:label="@string/title_activity_publish_task" >
-        </activity>
-        <activity
             android:name=".activity.MyQRCodeActivity"
             android:label="@string/title_activity_my_qrcode" >
         </activity>
@@ -200,6 +196,18 @@
         <activity
             android:name=".activity.FriendCircleActivity"
             android:label="@string/title_activity_friend_circle" >
+        </activity>
+        <activity
+            android:name=".activity.TaskActivity"
+            android:label="@string/title_activity_task" >
+        </activity>
+        <activity
+            android:name=".activity.TaskDetailActivity"
+            android:label="@string/title_activity_task_detail" >
+        </activity>
+        <activity
+            android:name=".activity.AddTaskActivity"
+            android:label="@string/title_activity_add_task" >
         </activity>
     </application>
 

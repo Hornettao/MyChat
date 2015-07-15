@@ -1,0 +1,86 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true">
+    <LinearLayout
+        android:id="@+id/layout_all"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:orientation="vertical"
+        tools:context="com.hornettao.mychat.activity.AddTaskActivity"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
+
+        <EditText
+            android:id="@+id/text_view_title"
+            style="@style/LoginActivity.EditText"
+            android:layout_width="match_parent"
+            android:hint="标题"/>
+
+        <EditText
+            android:layout_marginTop="10dp"
+            android:id="@+id/text_view_start_time"
+            style="@style/LoginActivity.EditText"
+            android:layout_width="match_parent"
+            android:hint="起始时间"
+            />
+
+        <EditText
+            android:layout_marginTop="10dp"
+            android:id="@+id/text_view_end_time"
+            style="@style/LoginActivity.EditText"
+            android:layout_width="match_parent"
+            android:hint="结束时间"
+            />
+
+        <EditText
+            android:inputType="number"
+            android:layout_marginTop="10dp"
+            android:id="@+id/text_view_total"
+            style="@style/LoginActivity.EditText"
+            android:layout_width="match_parent"
+            android:hint="总人数"/>
+
+        <EditText
+            android:layout_marginTop="10dp"
+
+            android:id="@+id/text_view_position"
+            style="@style/LoginActivity.EditText"
+            android:layout_width="match_parent"
+            android:hint="地点"/>
+
+        <EditText
+            android:paddingTop="10dp"
+            android:layout_marginTop="10dp"
+
+            android:id="@+id/text_view_content"
+            style="@style/LoginActivity.EditText"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:gravity="top"
+            android:hint="详细内容"/>
+
+        <ImageView
+            android:layout_marginTop="10dp"
+
+            android:id="@+id/imageView"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@mipmap/ue056"
+            android:layout_gravity="center_horizontal"/>
+
+        <Button
+            android:layout_marginTop="10dp"
+
+            android:id="@+id/button_add_task"
+            android:text="@string/title_activity_add_task"
+            style="@style/LoginActivity.Button"
+            android:layout_gravity="center_horizontal"/>
+    </LinearLayout>
+</ScrollView>

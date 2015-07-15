@@ -47,6 +47,9 @@
     <string name="add_name">账号</string>
     <string name="add_name_hint">请输入昵称&#8230;</string>
     <string name="add_gender">性别</string>
+    <string name="friend_circle">朋友圈</string>
+    <string name="task">任务</string>
+    <string name="task_detail">任务详情</string>
 
     <string name="set_notify">接收新消息通知</string>
     <string name="set_myinfo">个人资料</string>
@@ -103,15 +106,18 @@
     <string name="plus_scan">扫一扫</string>
     <string name="plus_take_photo">拍照分享</string>
     <string name="plus_publish_task">发布任务</string>
-    <string name="title_activity_new_friend">NewFriendActivity</string>
+    <string name="title_activity_new_friend">新的朋友</string>
 
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_chat">ChatActivity</string>
-    <string name="title_activity_location">LocationActivity</string>
-    <string name="title_activity_image_browser">ImageBrowserActivity</string>
+    <string name="title_activity_chat">聊天</string>
+    <string name="title_activity_location">定位</string>
+    <string name="title_activity_image_browser">查看图像</string>
     <string name="title_activity_forget_password">忘记密码</string>
     <string name="title_activity_reset_password">重置密码</string>
-    <string name="title_activity_publish_task">PublishTaskActivity</string>
-    <string name="title_activity_my_qrcode">MyQRCodeActivity</string>
-    <string name="title_activity_friend_circle">FriendCircleActivity</string>
+    <string name="title_activity_publish_task">发布任务</string>
+    <string name="title_activity_my_qrcode">我的二维码</string>
+    <string name="title_activity_friend_circle">朋友圈</string>
+    <string name="title_activity_task">任务</string>
+    <string name="title_activity_task_detail">任务详情</string>
+    <string name="title_activity_add_task">新建任务</string>
 </resources>

@@ -16,7 +16,6 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -383,6 +382,13 @@ public class SetMyInfoActivity extends Base2Activity implements View.OnClickList
     private void showAvatarPop() {
         View view = LayoutInflater.from(this).inflate(R.layout.pop_showavator,
                 null);
+        RelativeLayout relativeLayout = (RelativeLayout) view.findViewById(R.id.relative_layout);
+        relativeLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                avatorPop.dismiss();
+            }
+        });
         layout_choose = (RelativeLayout) view.findViewById(R.id.layout_choose);
         layout_photo = (RelativeLayout) view.findViewById(R.id.layout_photo);
         layout_photo.setOnClickListener(new View.OnClickListener() {
@@ -430,17 +436,16 @@ public class SetMyInfoActivity extends Base2Activity implements View.OnClickList
         });
 
         avatorPop = new PopupWindow(view, mScreenWidth, 600);
-        avatorPop.setTouchInterceptor(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {
-                    avatorPop.dismiss();
-                    return true;
-                }
-                return false;
-            }
-        });
-
+//        avatorPop.setTouchInterceptor(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {
+//                    avatorPop.dismiss();
+//                    return true;
+//                }
+//                return false;
+//            }
+//        });
         avatorPop.setWidth(WindowManager.LayoutParams.MATCH_PARENT);
         avatorPop.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
         avatorPop.setTouchable(true);

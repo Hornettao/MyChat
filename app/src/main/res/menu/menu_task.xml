@@ -1,0 +1,11 @@
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.hornettao.mychat.activity.TaskActivity">
+    <item
+        android:id="@+id/action_add_task"
+        android:title="新建任务"
+        android:icon="@mipmap/actionbar_add_icon"
+        android:orderInCategory="100"
+        android:showAsAction="always" />
+</menu>

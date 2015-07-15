@@ -142,7 +142,7 @@ public class NearPeopleActivity extends Base2Activity implements XListView.IXLis
 		double latitude = Double.parseDouble(mApplication.getLatitude());
 		double longtitude = Double.parseDouble(mApplication.getLongtitude());
 		//查询10公里范围内的性别为女的用户列表
-		userManager.queryKiloMetersListByPage(true,page,"location", longtitude, latitude, true,QUERY_KILOMETERS,"sex",false,new FindListener<User>() {
+		userManager.queryKiloMetersListByPage(true, page,"location", longtitude, latitude, true,QUERY_KILOMETERS,"sex",false,new FindListener<User>() {
 		//查询全部地理位置信息且性别为女性的用户列表
 //		userManager.queryNearByListByPage(true,page, "location", longtitude, latitude, true,"sex",false,new FindListener<User>() {
 

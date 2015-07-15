@@ -20,11 +20,6 @@ import cn.bmob.v3.listener.UpdateListener;
 
 /**
  * 黑名单列表
- * 
- * @ClassName: BlackListActivity
- * @Description: TODO
- * @author smile
- * @date 2014-6-24 下午5:17:50
  */
 public class BlackListActivity extends Base2Activity implements OnItemClickListener {
 

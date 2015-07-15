@@ -16,7 +16,13 @@ public class Consts {
     /**
      * 我的头像保存目录
      */
-    public static String MyAvatarDir = "/sdcard/mychat/avatar/";
+    public static String MyAvatarDir = "sdcard/mychat/avatar/";
+
+    /**
+     * 任务图片保存目录
+     */
+    public static String MyTaskDir = "sdcard/mychat/task/";
+
     /**
      * 拍照回调
      */

@@ -9,7 +9,7 @@ import android.view.SubMenu;
 import android.view.View;
 
 import com.hornettao.mychat.R;
-import com.hornettao.mychat.activity.PublishTaskActivity;
+import com.hornettao.mychat.activity.AddTaskActivity;
 import com.hornettao.mychat.utils.L;
 import com.zxing.activity.CaptureActivity;
 
@@ -77,7 +77,7 @@ public class PlusActionProvider extends ActionProvider {
 				.setOnMenuItemClickListener(new OnMenuItemClickListener() {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
-                        context.startActivity(new Intent(context, PublishTaskActivity.class));
+                        context.startActivity(new Intent(context, AddTaskActivity.class));
                         return false;
                     }
                 });

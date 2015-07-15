@@ -5,6 +5,7 @@ import android.view.View;
 
 /**
  * Viewholder的简化
+ * Created by hornettao on 15/7/11.
  */
 @SuppressWarnings("unchecked")
 public class ViewHolder {

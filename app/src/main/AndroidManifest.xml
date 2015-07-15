@@ -144,7 +144,7 @@
             android:name=".activity.MyQRCodeActivity"
             android:label="@string/title_activity_my_qrcode" >
         </activity>
-        <activity android:name="com.zxing.activity.CaptureActivity"/>
+        <activity android:name="com.zxing.activity.CaptureActivity" />
         <!-- 百度地图开发者key -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
@@ -197,7 +197,10 @@
             </intent-filter>
         </service>
 
-
+        <activity
+            android:name=".activity.FriendCircleActivity"
+            android:label="@string/title_activity_friend_circle" >
+        </activity>
     </application>
 
 </manifest>

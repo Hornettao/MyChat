@@ -1,36 +1,44 @@
 package com.hornettao.mychat.fragment;
 
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.FrameLayout.LayoutParams;
-import android.widget.TextView;
+import android.widget.Button;
+
+import com.hornettao.mychat.R;
+import com.hornettao.mychat.activity.FriendCircleActivity;
 
 /**
  * 发现Fragment的界面
  */
-public class FoundFragment extends BaseFragment {
+public class FoundFragment extends BaseFragment implements View.OnClickListener {
+
+	private Button button;
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-		FrameLayout fl = new FrameLayout(getActivity());
-		fl.setLayoutParams(params);
-		DisplayMetrics dm = getResources().getDisplayMetrics();
-		final int margin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, dm);
-		TextView v = new TextView(getActivity());
-		params.setMargins(margin, margin, margin, margin);
-		v.setLayoutParams(params);
-		v.setLayoutParams(params);
-		v.setGravity(Gravity.CENTER);
-		v.setText("发现界面");
-		v.setTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12, dm));
-		fl.addView(v);
-		return fl;
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		return inflater.inflate(R.layout.fragment_found, container, false);
+	}
+	@Override
+	public void onActivityCreated(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onActivityCreated(savedInstanceState);
+		setUpView();
+	}
+
+	private void setUpView() {
+		button = (Button) findViewById(R.id.button);
+        button.setOnClickListener(this);
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+			case R.id.button:
+				startAnimActivity(FriendCircleActivity.class);
+				break;
+			default:
+				break;
+		}
 	}
 }

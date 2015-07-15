@@ -151,7 +151,7 @@ public class SetMyInfoActivity extends Base2Activity implements View.OnClickList
 
     private void initMeData() {
         User user = userManager.getCurrentUser(User.class);
-        BmobLog.i("hight = " + user.getHight() + ",sex= " + user.getSex());
+        L.i("sex= " + user.getSex());
         initOtherData(user.getUsername());
     }
 
@@ -641,7 +641,7 @@ public class SetMyInfoActivity extends Base2Activity implements View.OnClickList
             @Override
             public void onSuccess() {
                 // TODO Auto-generated method stub
-                BmobLog.i("blog保存成功");
+                L.i("blog保存成功");
                 User  u =new User();
                 u.setBlog(blog);
                 updateUserData(u, new UpdateListener() {

@@ -1,6 +1,7 @@
 package com.hornettao.mychat.activity;
 
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
@@ -9,7 +10,6 @@ import com.hornettao.mychat.bean.User;
 import com.hornettao.mychat.utils.T;
 
 import cn.bmob.v3.listener.UpdateListener;
-import uk.co.senab.photoview.PhotoView;
 
 /**
  * 设置昵称和性别
@@ -46,7 +46,7 @@ public class UpdateInfoActivity extends Base2Activity {
 		final User user = userManager.getCurrentUser(User.class);
 		User u = new User();
 		u.setNick(nick);
-		u.setHight(110);
+//		u.setHight(110);
 		u.setObjectId(user.getObjectId());
 		u.update(this, new UpdateListener() {
 
@@ -54,7 +54,7 @@ public class UpdateInfoActivity extends Base2Activity {
 			public void onSuccess() {
 				// TODO Auto-generated method stub
 				final User c = userManager.getCurrentUser(User.class);
-				T.showShort(UpdateInfoActivity.this, "修改成功:" + c.getNick() + ",height = " + c.getHight());
+				T.showShort(UpdateInfoActivity.this, "修改成功:" + c.getNick());
 				finish();
 			}
 
@@ -64,6 +64,12 @@ public class UpdateInfoActivity extends Base2Activity {
 				T.showShort(UpdateInfoActivity.this, "onFailure:" + arg1);
 			}
 		});
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.menu_update_info, menu);
+		return super.onCreateOptionsMenu(menu);
 	}
 
 	@Override

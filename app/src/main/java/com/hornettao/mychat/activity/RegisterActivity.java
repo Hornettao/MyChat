@@ -85,6 +85,8 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         final User user = new User();
         user.setUsername(phoneNumber);
         user.setPassword(password);
+        user.setSex(true);
+        user.setNick(phoneNumber);
         user.setMobilePhoneNumber(phoneNumber);
         user.setMobilePhoneNumberVerified(true);
         //将user和设备id进行绑定

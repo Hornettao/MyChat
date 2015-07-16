@@ -19,6 +19,10 @@ public class Task extends BmobObject {
 
     private BmobRelation member;
 
+    public Task() {
+
+    }
+
     public Task(String title, String startTime, String endTime, Integer total, String position, String content) {
         this.title = title;
         this.startTime = startTime;

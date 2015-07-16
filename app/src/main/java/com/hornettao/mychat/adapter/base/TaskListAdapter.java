@@ -53,16 +53,23 @@ public class TaskListAdapter extends BaseListAdapter<Task> {
 
 		titleTextView.setText(task.getTitle());
 		positionTextView.setText(task.getPosition());
-		totalTextView.setText("/" + task.getTotal());
+		totalTextView.setText("" + task.getTotal());
 		endTimeTextView.setText(task.getEndTime());
+        attendTextView.setText("");
+//        L.i("memeber" + task.getMember());
+//        List<BmobPointer> relations = task.getMember().getObjects();
+//        L.i("here size" + relations.size());
+//        if (CollectionUtils.isNotNull(relations)) {
+//            attendTextView.setText(task.getMember().getObjects().size() + "");
+//        }
 		endTimeButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				endTimeTextView.setVisibility(View.VISIBLE);
-				endTimeTextView.startAnimation(animation_open);
-				endTimeButton.setVisibility(View.INVISIBLE);
-			}
-		});
+            @Override
+            public void onClick(View v) {
+                endTimeTextView.setVisibility(View.VISIBLE);
+                endTimeTextView.startAnimation(animation_open);
+                endTimeButton.setVisibility(View.INVISIBLE);
+            }
+        });
 		endTimeTextView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -97,5 +104,31 @@ public class TaskListAdapter extends BaseListAdapter<Task> {
 //		tv_friend_name.setText(contract.getUsername());
 		return convertView;
 	}
+
+
+//	private void queryAddUsers() {
+//		BmobQuery<User> query = new BmobQuery<>();
+//		Task newTask2 = new Task();
+//		newTask2.setObjectId(task.getObjectId());
+//		query.addWhereRelatedTo("member", new BmobPointer(newTask2));
+//		query.findObjects(this, new FindListener<User>() {
+//			@Override
+//			public void onSuccess(List<User> list) {
+//				L.i("个数" + list.size());
+//				userList = list;
+//				runOnUiThread(new Runnable() {
+//					@Override
+//					public void run() {
+//						attendTextView.setText(userList.size());
+//					}
+//				});
+//			}
+//
+//			@Override
+//			public void onError(int i, String s) {
+//
+//			}
+//		});
+//	}
 
 }

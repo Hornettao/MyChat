@@ -2,6 +2,7 @@ package com.hornettao.mychat.activity;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -262,6 +263,7 @@ public class AddTaskActivity extends Base2Activity implements View.OnClickListen
     }
 
     private void showAvatarPop() {
+        hideSoftInputView();
         View view = LayoutInflater.from(this).inflate(R.layout.pop_showavator,
                 null);
         RelativeLayout relativeLayout = (RelativeLayout) view.findViewById(R.id.relative_layout);
@@ -394,7 +396,12 @@ public class AddTaskActivity extends Base2Activity implements View.OnClickListen
         }
     }
 
+    ProgressDialog progress;
     private void uploadTaskImage() {
+        progress = new ProgressDialog(AddTaskActivity.this);
+        progress.setMessage("添加图片中...");
+        progress.setCanceledOnTouchOutside(true);
+        progress.show();
         L.i("path==" + path);
         L.i("file==" + filePath);
         BTPFileResponse response = BmobProFile.getInstance(this).upload(path, new UploadListener() {
@@ -402,6 +409,7 @@ public class AddTaskActivity extends Base2Activity implements View.OnClickListen
             public void onSuccess(String s, String s1, BmobFile bmobFile) {
                 url = bmobFile.getUrl();
                 L.i("success" + url);
+                progress.dismiss();
 //                saveTask(url);
             }
 

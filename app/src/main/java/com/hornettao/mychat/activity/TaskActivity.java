@@ -230,4 +230,10 @@ public class TaskActivity extends Base2Activity implements AdapterView.OnItemCli
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initSearchList(true);
+    }
 }

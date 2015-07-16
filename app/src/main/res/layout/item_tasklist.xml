@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="80dp">
+    android:layout_height="80dp"
+    android:descendantFocusability= "blocksDescendants">
 
     <ImageView
         android:layout_width="80dp"
@@ -69,7 +70,7 @@
             android:layout_marginLeft="5dp"
             android:layout_alignBottom="@id/image_view_people"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="10"
+            android:text="0"
             android:textColor="#888888"
             />
 
@@ -90,7 +91,8 @@
             android:layout_width="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:text="截至日期"/>
+            android:text="截至日期"
+            android:focusable="false"/>
 
         <Button
             android:id="@+id/text_view_end_time"
@@ -99,6 +101,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:text="2015年7月15日 20:55"
-            android:visibility="invisible"/>
+            android:visibility="invisible"
+            android:focusable="false"/>
     </RelativeLayout>
 </LinearLayout>

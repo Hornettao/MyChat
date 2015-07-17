@@ -2,12 +2,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.example.wechatsample.MainActivity" >
 
-    <item
-        android:id="@+id/action_search"
-        android:actionViewClass="android.widget.SearchView"
-        android:icon="@mipmap/actionbar_search_icon"
-        android:showAsAction="ifRoom|collapseActionView"
-        android:title="@string/action_search"/>
+    <!--<item-->
+        <!--android:id="@+id/action_search"-->
+        <!--android:actionViewClass="android.widget.SearchView"-->
+        <!--android:icon="@mipmap/actionbar_search_icon"-->
+        <!--android:showAsAction="ifRoom|collapseActionView"-->
+        <!--android:title="@string/action_search"/>-->
     <item
         android:id="@+id/action_plus"
         android:actionProviderClass="com.hornettao.mychat.view.PlusActionProvider"

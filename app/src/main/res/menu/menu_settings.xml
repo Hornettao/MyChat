@@ -5,6 +5,7 @@
     <item
         android:id="@+id/action_my_qr_code"
         android:title="我的二维码"
+        android:icon="@mipmap/qr_code"
         android:orderInCategory="100"
         android:showAsAction="always" />
 </menu>

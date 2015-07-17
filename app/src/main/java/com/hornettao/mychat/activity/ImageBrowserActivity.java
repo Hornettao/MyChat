@@ -103,7 +103,7 @@ public class ImageBrowserActivity extends BaseActivity implements ViewPager.OnPa
             final ProgressBar progress = (ProgressBar) imageLayout.findViewById(R.id.progress);
 
             final String imgUrl = mPhotos.get(position);
-            ImageLoader.getInstance().displayImage(imgUrl, photoView, ImageLoadOptions.getOptions(),new SimpleImageLoadingListener() {
+            ImageLoader.getInstance().displayImage(imgUrl, photoView, ImageLoadOptions.getOptions1(),new SimpleImageLoadingListener() {
 
                 @Override
                 public void onLoadingStarted(String imageUri, View view) {

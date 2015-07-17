@@ -3,10 +3,15 @@ package com.hornettao.mychat.activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.hornettao.mychat.R;
 import com.hornettao.mychat.adapter.base.TaskListAdapter;
@@ -14,6 +19,7 @@ import com.hornettao.mychat.bean.Task;
 import com.hornettao.mychat.utils.CollectionUtils;
 import com.hornettao.mychat.utils.L;
 import com.hornettao.mychat.utils.T;
+import com.hornettao.mychat.view.ClearEditText;
 import com.hornettao.mychat.view.xlist.XListView;
 
 import java.util.ArrayList;
@@ -29,11 +35,21 @@ public class TaskActivity extends Base2Activity implements AdapterView.OnItemCli
     private TaskListAdapter taskListAdapter;
     private List<Task> taskList = new ArrayList<>();
 
+    private ClearEditText mClearEditText;
+
+    private Spinner spinner;
+
+    private ArrayAdapter<CharSequence> adapter = null;
+
+    private static String[] info = {"标题", "内容", "时间"};
+
+    private int i = 0;
+
     private int pageLimit = 10;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_task);
+        setContentView(R.layout.activity_task2);
         showBackAndHidelogo();
         setUpView();
         initXListView();
@@ -41,7 +57,78 @@ public class TaskActivity extends Base2Activity implements AdapterView.OnItemCli
     }
 
     private void setUpView() {
+        spinner = (Spinner) this.findViewById(R.id.spinner);
+        adapter = new ArrayAdapter<CharSequence>(this, android.R.layout.simple_dropdown_item_1line, info);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                i = position;
+                L.i("位置" + i);
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        initEditText();
+    }
+
+    private void initEditText() {
+        mClearEditText = (ClearEditText) findViewById(R.id.et_msg_search);
+        // 根据输入框输入值的改变来过滤搜索
+        mClearEditText.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before,
+                                      int count) {
+                // 当输入框里面的值为空，更新为原来的列表，否则为过滤数据列表
+                filterData(s.toString());
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count,
+                                          int after) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+    }
+
+    /**
+     * 根据输入框中的值来过滤数据并更新ListView
+     *
+     * @param filterStr
+     */
+    private void filterData(String filterStr) {
+        List<Task> filterDateList = new ArrayList<>();
+        if (TextUtils.isEmpty(filterStr)) {
+            filterDateList = taskList;
+        } else {
+            filterDateList.clear();
+            for (Task sortModel : taskList) {
+                String name = "";
+                if (i == 0 ) {
+                    name = sortModel.getTitle();
+                } else if (i == 1) {
+                    name = sortModel.getContent();
+                } else {
+                    name = sortModel.getEndTime();
+                }
+                if (name != null) {
+                    if (name.indexOf(filterStr.toString()) != -1) {
+                        filterDateList.add(sortModel);
+                    }
+                }
+            }
+        }
+        // 根据a-z进行排序
+        taskListAdapter.setList(filterDateList);
     }
 
     @Override

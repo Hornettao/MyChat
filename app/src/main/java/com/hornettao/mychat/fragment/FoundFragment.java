@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 import com.hornettao.mychat.R;
 import com.hornettao.mychat.activity.FriendCircleActivity;
 import com.hornettao.mychat.activity.TaskActivity;
+import com.zxing.activity.CaptureActivity;
 
 /**
  * 发现Fragment的界面
@@ -17,6 +18,7 @@ public class FoundFragment extends BaseFragment implements View.OnClickListener 
 
 	private RelativeLayout friendRelativeLayout;
 	private RelativeLayout taskRelativeLayout;
+	private RelativeLayout scanRelativeLayout;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.fragment_found, container, false);
@@ -33,6 +35,8 @@ public class FoundFragment extends BaseFragment implements View.OnClickListener 
 		friendRelativeLayout.setOnClickListener(this);
 		taskRelativeLayout = (RelativeLayout) findViewById(R.id.layout_task);
 		taskRelativeLayout.setOnClickListener(this);
+		scanRelativeLayout = (RelativeLayout) findViewById(R.id.layout_scan);
+		scanRelativeLayout.setOnClickListener(this);
 	}
 
 	@Override
@@ -43,6 +47,9 @@ public class FoundFragment extends BaseFragment implements View.OnClickListener 
 				break;
 			case R.id.layout_task:
 				startAnimActivity(TaskActivity.class);
+				break;
+			case R.id.layout_scan:
+				startAnimActivity(CaptureActivity.class);
 				break;
 			default:
 				break;

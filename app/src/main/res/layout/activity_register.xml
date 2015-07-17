@@ -15,32 +15,21 @@
         android:focusable="true"
         android:focusableInTouchMode="true">
 
-        <TextView
-            android:id="@+id/text_view_password"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/pwd"/>
-
         <EditText
+            android:layout_centerHorizontal="true"
+            android:hint="密码"
             android:id="@+id/edit_text_password"
             style="@style/LoginActivity.EditText"
-            android:layout_alignLeft="@id/text_view_password"
-            android:layout_below="@id/text_view_password"
             android:layout_marginTop="20dp"
             android:inputType="textPassword"
             android:ems="10"/>
-        <TextView
-            android:id="@+id/text_view_password_confirm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/edit_text_password"
-            android:layout_marginTop="30dp"
-            android:text="@string/pwd_confirm"/>
+
         <EditText
+            android:hint="请再次键入密码"
             android:id="@+id/edit_text_sms_code"
             style="@style/LoginActivity.EditText"
-            android:layout_alignLeft="@id/text_view_password"
-            android:layout_below="@id/text_view_password_confirm"
+            android:layout_alignLeft="@id/edit_text_password"
+            android:layout_below="@id/edit_text_password"
             android:layout_marginTop="20dp"
             android:inputType="textPassword"
             android:ems="10"/>
@@ -48,7 +37,7 @@
         <Button
             android:id="@+id/button_register"
             style="@style/LoginActivity.Button"
-            android:layout_alignLeft="@id/text_view_password"
+            android:layout_alignLeft="@id/edit_text_password"
             android:layout_below="@id/edit_text_sms_code"
             android:layout_marginTop="30dp"
             android:text="@string/button_register_activity_register"/>

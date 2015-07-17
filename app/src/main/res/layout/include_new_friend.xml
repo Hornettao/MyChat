@@ -21,13 +21,13 @@
 
             <ImageView
                 android:id="@+id/image_view_1"
-                android:layout_width="50.0dip"
-                android:layout_height="50.0dip"
+                android:layout_width="50dip"
+                android:layout_height="50dip"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="6.0dip"
                 android:contentDescription="@string/action_settings"
                 android:padding="5dp"
-                android:src="@mipmap/new_friends_icon" />
+                android:src="@mipmap/add_friend" />
 
             <ImageView
                 android:id="@+id/iv_msg_tips"
@@ -77,7 +77,7 @@
             android:layout_marginTop="6.0dip"
             android:contentDescription="@string/action_settings"
             android:padding="5dp"
-            android:src="@mipmap/icon_near" />
+            android:src="@mipmap/location" />
 
         <TextView
             style="@style/MyChat.TextView._Black"

@@ -14,11 +14,11 @@ import com.hornettao.mychat.activity.AddTaskActivity;
 import com.hornettao.mychat.utils.L;
 import com.zxing.activity.CaptureActivity;
 
-public class PlusActionProvider extends ActionProvider {
+public class PlusActionProvider2 extends ActionProvider {
 
 	private Context context;
 
-	public PlusActionProvider(Context context) {
+	public PlusActionProvider2(Context context) {
 		super(context);
 		this.context = context;
 	}
@@ -39,7 +39,7 @@ public class PlusActionProvider extends ActionProvider {
 //						return true;
 //					}
 //				});
-		subMenu.add(context.getString(R.string.plus_add_friend))
+		subMenu.add("发状态")
 				.setIcon(R.mipmap.add_friend_white)
 				.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 					@Override

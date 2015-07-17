@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyChat</string>
+    <string name="app_name">熊信</string>
 
     <string name="title_activity_main">MainActivity</string>
 
@@ -10,7 +10,7 @@
 
     <string name="hint_login_phone_number">手机号</string>
     <string name="hint_register_phone_number">注册手机号</string>
-    <string name="hint_login_password">密码</string>
+    <string name="hint_login_password">密 码</string>
     <string name="hint_sms_code">短信验证码</string>
     <string name="hint_forget_password_reset">请输入新密码,为8-16位的非纯数字</string>
     <string name="toast_error_phone_number_null">手机号不能为空</string>
@@ -47,7 +47,7 @@
     <string name="add_name">账号</string>
     <string name="add_name_hint">请输入昵称&#8230;</string>
     <string name="add_gender">性别</string>
-    <string name="friend_circle">朋友圈</string>
+    <string name="friend_circle">熊友圈</string>
     <string name="task">任务</string>
     <string name="task_detail">任务详情</string>
 

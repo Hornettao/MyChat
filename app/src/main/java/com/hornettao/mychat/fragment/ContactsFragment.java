@@ -137,7 +137,7 @@ public class ContactsFragment extends BaseFragment implements AdapterView.OnItem
 		} else {
 			filterDateList.clear();
 			for (User sortModel : friends) {
-				String name = sortModel.getUsername();
+				String name = sortModel.getNick();
 				if (name != null) {
 					if (name.indexOf(filterStr.toString()) != -1
 							|| characterParser.getSelling(name).startsWith(
@@ -169,10 +169,10 @@ public class ContactsFragment extends BaseFragment implements AdapterView.OnItem
 			sortModel.setObjectId(user.getObjectId());
 			sortModel.setContacts(user.getContacts());
 			// 汉字转换成拼音
-			String username = sortModel.getUsername();
+			String username = sortModel.getNick();
 			// 若没有username
 			if (username != null) {
-				String pinyin = characterParser.getSelling(sortModel.getUsername());
+				String pinyin = characterParser.getSelling(sortModel.getNick());
 				String sortString = pinyin.substring(0, 1).toUpperCase();
 				// 正则表达式，判断首字母是否是英文字母
 				if (sortString.matches("[A-Z]")) {
@@ -352,7 +352,7 @@ public class ContactsFragment extends BaseFragment implements AdapterView.OnItem
 	}
 
 	public void showDeleteDialog(final User user) {
-		DialogTips dialog = new DialogTips(getActivity(),user.getUsername(),"删除联系人", "确定",true,true);
+		DialogTips dialog = new DialogTips(getActivity(),user.getNick(),"删除联系人", "确定",true,true);
 		// 设置成功事件
 		dialog.SetOnSuccessListener(new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialogInterface, int userId) {

@@ -4,10 +4,9 @@
     tools:context="com.hornettao.mychat.activity.FriendCircleActivity">
     <item
         android:id="@+id/action_post"
-        android:title="拍照"
-        android:icon="@mipmap/ofm_camera_icon"
-        android:orderInCategory="100"
-        android:showAsAction="always" />
+        android:icon="@mipmap/pencil"
+        android:showAsAction="always"
+        android:title="@string/action_plus"/>
     <item
         android:id="@+id/action_refresh"
         android:title="刷新"

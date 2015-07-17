@@ -1,0 +1,63 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.hornettao.mychat.activity.TaskActivity">
+
+
+
+    <LinearLayout
+        android:id="@+id/linear_layout"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <Spinner
+            android:layout_gravity="center"
+            android:id="@+id/spinner"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="48dp">
+
+        </Spinner>
+
+        <com.hornettao.mychat.view.ClearEditText
+            style="@style/LoginActivity.EditText"
+            android:id="@+id/et_msg_search"
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="@dimen/base_action_bar_height"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:drawableLeft="@mipmap/icon_msg_search"
+            android:drawablePadding="10dp"
+            android:hint="@string/message_search_hint"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:singleLine="true" />
+
+
+
+    </LinearLayout>
+
+
+
+    <com.hornettao.mychat.view.xlist.XListView
+        android:id="@+id/list_view_task"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/linear_layout"
+        android:cacheColorHint="@android:color/transparent"
+        android:divider="@mipmap/base_horization_line"
+        android:dividerHeight="1dp"
+        android:fadingEdgeLength="0dp"
+        android:fastScrollEnabled="true"
+        android:paddingBottom="10dp"
+        />
+
+</RelativeLayout>

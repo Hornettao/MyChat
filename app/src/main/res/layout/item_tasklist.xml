@@ -85,19 +85,41 @@
             android:text="/100"
             android:textColor="#888888"/>
 
-        <Button
-            android:id="@+id/button_end_time"
-            style="@style/LoginActivity.Button"
-            android:layout_width="wrap_content"
+        <RelativeLayout
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:text="截至日期"
-            android:focusable="false"/>
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/button_end_time"
+                style="@style/LoginActivity.Button"
+                android:background="@mipmap/bg_green"
+                android:layout_width="46dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="5dp"
+                android:focusable="false"/>
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@mipmap/calendar"
+                android:layout_alignLeft="@id/button_end_time"
+                android:layout_marginLeft="16dp"
+                android:scaleType="centerCrop"
+                android:layout_centerVertical="true"/>
+
+        </RelativeLayout>
+
+
 
         <Button
             android:id="@+id/text_view_end_time"
             style="@style/LoginActivity.Button"
+            android:background="@mipmap/bg_green"
             android:layout_width="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="5dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:text="2015年7月15日 20:55"

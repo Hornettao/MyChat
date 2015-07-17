@@ -13,9 +13,9 @@ import android.widget.TextView;
 
 import com.hornettao.mychat.R;
 import com.hornettao.mychat.adapter.base.ViewHolder;
+import com.hornettao.mychat.utils.CollectionUtils;
 import com.hornettao.mychat.utils.FaceTextUtils;
 import com.hornettao.mychat.utils.ImageLoadOptions;
-import com.hornettao.mychat.utils.L;
 import com.hornettao.mychat.utils.TimeUtil;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -63,6 +63,8 @@ public class MessageRecentAdapter extends ArrayAdapter<BmobRecent> implements Fi
         bmobUserManager.queryUserById(item.getTargetid(), new FindListener<BmobChatUser>() {
             @Override
             public void onSuccess(List<BmobChatUser> list) {
+                if (!CollectionUtils.isNotNull(list))
+                    return;
                 String url = list.get(0).getAvatar();
                 String avatar = url;
                 if(avatar!=null&& !avatar.equals("")){
@@ -79,9 +81,7 @@ public class MessageRecentAdapter extends ArrayAdapter<BmobRecent> implements Fi
         });
 
 
-
-
-        tv_recent_name.setText(item.getUserName());
+        tv_recent_name.setText(item.getNick());
         tv_recent_time.setText(TimeUtil.getChatTime(item.getTime()));
         //显示内容
         if(item.getType()==BmobConfig.TYPE_TEXT){

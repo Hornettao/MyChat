@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@mipmap/base_dialog_bg"
+    android:background="@mipmap/bg_delete"
     android:minWidth="300dp"
     android:orientation="vertical" >
 
@@ -35,7 +35,7 @@
         android:id="@+id/title_red_line"
         android:layout_width="fill_parent"
         android:layout_height="2dp"
-        android:background="@mipmap/base_horizontal_line_red" />
+        android:background="@color/standard_color_1" />
 
     <LinearLayout
         android:id="@+id/dialog_contentPanel"

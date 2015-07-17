@@ -12,11 +12,12 @@
 
         <EditText
             android:id="@+id/et_find_name"
+            style="@style/LoginActivity.EditText"
             android:layout_width="0dp"
             android:layout_height="39dp"
             android:layout_margin="10dp"
             android:layout_weight="1.0"
-            android:background="@drawable/button_normal_welcome_activity"
+
             android:hint="@string/username"
             android:paddingLeft="5dp"
             android:singleLine="true"

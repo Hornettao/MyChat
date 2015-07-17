@@ -56,7 +56,7 @@
     </style>
 
     <style name="MyChat.TextView._Orange">
-        <item name="android:textColor">@color/dialog_color_title</item>
+        <item name="android:textColor">@color/standard_color_1</item>
     </style>
 
     <style name="MyChat.ImageView">
